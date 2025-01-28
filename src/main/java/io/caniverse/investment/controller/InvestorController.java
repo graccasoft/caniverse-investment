@@ -1,0 +1,15 @@
+package io.caniverse.investment.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/investor")
+public class InvestorController {
+
+    @GetMapping
+    String dashboard(){
+        return "investor/dashboard";
+    }
+}
