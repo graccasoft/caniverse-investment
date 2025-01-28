@@ -62,4 +62,4 @@ Built with Spring Boot and JTE, it provides a robust and scalable solution for i
 - **Name**: Gracious
 - **Email**: gracious.mashasha@gmail.com
 - **LinkedIn**: [My LinkedIn Profile](https://www.linkedin.com/in/gracious-mashasha-4bbb2713/)
-- **Hire Me**: [My Upwork Profile](https://www.linkedin.com/in/gracious-mashasha-4bbb2713/)
+- **Hire Me**: [My Upwork Profile](https://www.upwork.com/freelancers/~01fb166b86c5c79e22)
