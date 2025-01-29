@@ -3,7 +3,9 @@
 <head>
     @template.partials.header(title = "Dashboard")
 </head>
-<body>
+<body
+        x-data="{ page: 'dashboard', 'loaded': true, 'darkMode': true, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+>
 @template.partials.preloader()
 <div class="flex h-screen overflow-hidden">
     @template.investor.aside()
