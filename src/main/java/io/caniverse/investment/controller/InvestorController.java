@@ -12,4 +12,14 @@ public class InvestorController {
     String dashboard(){
         return "investor/dashboard";
     }
+
+    @GetMapping("withdrawals")
+    String withdrawals(){
+        return "investor/withdrawals";
+    }
+
+    @GetMapping("withdraw")
+    String withdraw(){
+        return "investor/withdraw";
+    }
 }

@@ -87,9 +87,9 @@
                     <li>
                         <a
                                 class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                                href="profile.html"
-                                @click="selected = (selected === 'Profile' ? '':'Profile')"
-                                :class="{ 'bg-graydark dark:bg-meta-4': (selected === 'Profile') && (page === 'profile') }"
+                                href="/investor/withdrawals"
+                                @click="selected = (selected === 'withdrawals' ? '':'withdrawals')"
+                                :class="{ 'bg-graydark dark:bg-meta-4': (selected === 'withdrawals') && (page === 'withdrawals' || page === 'withdraw') }"
                                 :class="page === 'profile' && 'bg-graydark'"
                         >
                             <svg class="fill-current" width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -139,7 +139,7 @@
                                 </defs>
                             </svg>
 
-                            Deposits
+                            Investments
                         </a>
                     </li>
                     <!-- Menu Item Deposits -->
