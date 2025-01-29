@@ -24,4 +24,9 @@ public class AdminController {
         return "admin/withdrawals";
     }
 
+    @GetMapping("withdrawals/{id}")
+    String withdrawal(@PathVariable Long id){
+        return "admin/withdrawal";
+    }
+
 }
