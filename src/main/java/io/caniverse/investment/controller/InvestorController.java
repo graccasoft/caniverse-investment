@@ -22,4 +22,14 @@ public class InvestorController {
     String withdraw(){
         return "investor/withdraw";
     }
+
+    @GetMapping("investments")
+    String investments(){
+        return "investor/investments";
+    }
+
+    @GetMapping("invest")
+    String invest(){
+        return "investor/invest";
+    }
 }
