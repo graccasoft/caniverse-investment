@@ -1,0 +1,14 @@
+gg:
+  jte:
+    developmentMode: false
+    usePrecompiledTemplates: true
+spring:
+  application:
+    name: caniverse-investment
+  datasource:
+    url: ${SPRING_JDBC_URL}
+    username: ${SPRING_JDBC_USERNAME}
+    password: ${SPRING_JDBC_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
