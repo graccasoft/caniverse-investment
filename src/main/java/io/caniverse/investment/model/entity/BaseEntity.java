@@ -19,7 +19,7 @@ public class BaseEntity {
     private Instant createdOn;
     @UpdateTimestamp
     private Instant updatedOn;
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     public Long getId() {
         return id;

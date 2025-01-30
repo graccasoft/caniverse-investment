@@ -1,5 +1,6 @@
 package io.caniverse.investment.model.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -10,13 +11,20 @@ import java.util.List;
 @Entity
 public class Investor extends BaseEntity {
     private String name;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
     @OneToOne
     private Investor referrer;
 
     @OneToMany(mappedBy = "referrer")
     private List<Investor> referredInvestors = new ArrayList<>();
+
+    public Investor(){}
+    public Investor(String name, User user){
+        this.name = name;
+        this.user = user;
+    }
+
     public String getName() {
         return name;
     }

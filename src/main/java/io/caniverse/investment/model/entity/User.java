@@ -21,6 +21,12 @@ public class User extends BaseEntity implements UserDetails {
     @ManyToOne
     private Role role;
 
+    public User(){}
+    public User(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
     @Override
     public String getUsername() {
         return username;
