@@ -11,6 +11,8 @@ spring:
     url: ${SPRING_JDBC_URL}
     username: ${SPRING_JDBC_USERNAME}
     password: ${SPRING_JDBC_PASSWORD}
+  liquibase:
+    change-log: classpath:db/changelog/master.xml
   jpa:
     hibernate:
       ddl-auto: update
