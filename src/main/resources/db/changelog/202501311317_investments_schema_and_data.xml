@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Create the roles table -->
+    <changeSet id="3" author="gracious">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="investment"/>
+            </not>
+        </preConditions>
+        <createTable tableName="investment">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="VARCHAR(250)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="amount" type="DECIMAL">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="profit_amount" type="DECIMAL">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="period" type="INT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Insert investments -->
+    <changeSet id="4" author="gracious">
+        <insert tableName="investment">
+            <column name="name" value="Short Term"/>
+            <column name="description" value="Short term plan"/>
+            <column name="amount" value="500"/>
+            <column name="profit_amount" value="500"/>
+            <column name="period" value="12"/>
+        </insert>
+        <insert tableName="investment">
+            <column name="name" value="Full Term"/>
+            <column name="description" value="Full term plan"/>
+            <column name="amount" value="1000"/>
+            <column name="profit_amount" value="2000"/>
+            <column name="period" value="12"/>
+        </insert>
+        <insert tableName="investment">
+            <column name="name" value="Mid Term"/>
+            <column name="description" value="Mid term plan"/>
+            <column name="amount" value="1000"/>
+            <column name="profit_amount" value="500"/>
+            <column name="period" value="6"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
