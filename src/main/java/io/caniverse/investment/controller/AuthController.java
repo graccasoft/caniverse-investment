@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AuthController {
@@ -19,9 +20,12 @@ public class AuthController {
     }
 
     @GetMapping("login")
-    String login(){
+    String login(Model model, CsrfToken csrfToken, @RequestParam(name = "error", required = false) Integer error){
+        model.addAttribute("csrfToken", csrfToken);
+        model.addAttribute("error", error != null  );
         return "login";
     }
+
 
     @GetMapping("register")
     String register(CsrfToken csrfToken, Model model){
