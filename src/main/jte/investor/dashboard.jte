@@ -1,3 +1,5 @@
+@param java.util.List<io.caniverse.investment.model.entity.Investment> investments
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +16,7 @@
         <main>
             <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
 
-                <div class="col-span-12 mb-5 rounded-sm border border-stroke bg-white px-5 pb-10 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7 xl:col-span-5">
+                <div class="col-span-12 mb-5 rounded-sm border border-stroke bg-white px-5 pb-10 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7 xl:col-span-5 pb-6">
                     <div class="mb-7.5 flex items-center justify-between">
                         <div>
                             <h3 class="text-title-sm2 font-bold text-black dark:text-white">
@@ -24,8 +26,8 @@
 
                     </div>
 
-                    <div class="flex flex-col gap-5">
-                        <!-- stock item start -->
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
+                        @for(var investment: investments)
                         <div class="rounded p-4 border border-stroke dark:border-strokedark">
                             <div class="mb-5.5 flex items-center justify-between">
                                 <div class="flex items-center gap-4.5">
@@ -37,30 +39,28 @@
                                     </div>
 
                                     <div>
-                                        <h5 class="font-bold text-black dark:text-white">
-                                            Long term
-                                        </h5>
-                                        <p class="text-xs font-medium">$1,000.00</p>
+                                        <h5 class="font-bold text-black dark:text-white">${investment.getName()}</h5>
+                                        <p class="text-xs font-medium">${investment.getAmount()}</p>
                                     </div>
                                 </div>
 
                                 <div class="text-right">
                                     <p class="mb-0.5 flex items-center justify-end gap-1 text-xs font-medium text-meta-3">
-                                       6 Months
+                                       ${investment.getPeriod()} Months
                                     </p>
                                     <p class="text-xs font-medium text-meta-3">
-                                        + $1,500.00
+                                        + ${ investment.getProfitAmount().add( investment.getAmount() ) }
                                     </p>
                                 </div>
                             </div>
-                            <p class="text-center">Invest $1000 over 6 months and get $1500</p>
+                            <p class="text-center">Invest $${investment.getAmount()} over ${investment.getPeriod()} months and get $${investment.getProfitAmount().add(investment.getAmount())}</p>
                             <div class="flex items-center gap-4">
                                 <button class="bg-meta-3 font-medium hover:text-primary justify-center py-2 rounded text-sm text-white w-full hover:text-white">
                                     Invest Now
                                 </button>
                             </div>
                         </div>
-                        <!-- stock item end -->
+                        @endfor
 
                     </div>
                 </div>

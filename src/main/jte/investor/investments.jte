@@ -1,3 +1,4 @@
+@param java.util.List<io.caniverse.investment.model.entity.InvestorInvestment> investments
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,25 +37,29 @@
 
                     </div>
 
+                    @for(var investment: investments)
                     <div class="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
                         <div class="col-span-3 flex items-center">
                             <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
 
                                 <p class="text-sm font-medium text-black dark:text-white">
-                                    Apple Watch Series 7
+                                    ${investment.getInvestment().getName()}<br>
+                                    <smaal>$${investment.getInvestment().getAmount()}</smaal>
                                 </p>
                             </div>
                         </div>
 
                         <div class="col-span-2 flex items-center">
-                            <p class="text-sm font-medium text-black dark:text-white">$269</p>
+                            <p class="text-sm font-medium text-black dark:text-white">${investment.getCreatedOn().toString()}</p>
                         </div>
                         <div class="col-span-1 flex items-center">
                             <p class="inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-sm font-medium text-success">
-                                Paid
+                                ${investment.getStatus()}
                             </p>
                         </div>
                     </div>
+                    @endfor
+
 
                 </div>
             </div>

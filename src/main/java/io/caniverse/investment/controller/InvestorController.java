@@ -1,15 +1,32 @@
 package io.caniverse.investment.controller;
 
+import io.caniverse.investment.model.entity.InvestorInvestment;
+import io.caniverse.investment.service.InvestmentService;
+import io.caniverse.investment.service.InvestorInvestmentService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/investor")
 public class InvestorController {
 
+    private final InvestmentService investmentService;
+    private final InvestorInvestmentService investorInvestmentService;
+
+    public InvestorController(InvestmentService investmentService, InvestorInvestmentService investorInvestmentService) {
+        this.investmentService = investmentService;
+        this.investorInvestmentService = investorInvestmentService;
+    }
+
     @GetMapping
-    String dashboard(){
+    String dashboard(Model model){
+        model.addAttribute("investments", investmentService.getAll());
         return "investor/dashboard";
     }
 
@@ -24,12 +41,22 @@ public class InvestorController {
     }
 
     @GetMapping("investments")
-    String investments(){
+    String investments(Model model, Authentication authentication){
+        model.addAttribute("investments", investorInvestmentService.getCurrentUserInvestments(authentication));
         return "investor/investments";
     }
 
     @GetMapping("invest")
-    String invest(){
+    String invest(Model model, CsrfToken csrfToken){
+        model.addAttribute("investorInvestment", new InvestorInvestment());
+        model.addAttribute("investments", investmentService.getAll());
+        model.addAttribute("csrfToken", csrfToken);
         return "investor/invest";
+    }
+
+    @PostMapping("invest")
+    String doInvest(@ModelAttribute InvestorInvestment investorInvestment, Authentication authentication){
+        investorInvestmentService.save(investorInvestment, authentication);
+        return "redirect:/investor/investments";
     }
 }

@@ -1,3 +1,6 @@
+@param java.util.List<io.caniverse.investment.model.entity.Investment> investments
+@param io.caniverse.investment.model.entity.InvestorInvestment investorInvestment
+@param org.springframework.security.web.csrf.CsrfToken csrfToken
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +21,8 @@
                 <div class="flex w-full border-l-6 border-warning bg-warning bg-opacity-[15%] px-7 py-8 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-9 mb-3">
                     <div class="mr-5 flex h-9 w-9 items-center justify-center rounded-lg bg-warning bg-opacity-30">
                         <svg width="19" height="16" viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1.50493 16H17.5023C18.6204 16 19.3413 14.9018 18.8354 13.9735L10.8367 0.770573C10.2852 -0.256858 8.70677 -0.256858 8.15528 0.770573L0.156617 13.9735C-0.334072 14.8998 0.386764 16 1.50493 16ZM10.7585 12.9298C10.7585 13.6155 10.2223 14.1433 9.45583 14.1433C8.6894 14.1433 8.15311 13.6155 8.15311 12.9298V12.9015C8.15311 12.2159 8.6894 11.688 9.45583 11.688C10.2223 11.688 10.7585 12.2159 10.7585 12.9015V12.9298ZM8.75236 4.01062H10.2548C10.6674 4.01062 10.9127 4.33826 10.8671 4.75288L10.2071 10.1186C10.1615 10.5049 9.88572 10.7455 9.50142 10.7455C9.11929 10.7455 8.84138 10.5028 8.79579 10.1186L8.13574 4.75288C8.09449 4.33826 8.33984 4.01062 8.75236 4.01062Z" fill="#FBBF24"></path>
+                            <path d="M1.50493 16H17.5023C18.6204 16 19.3413 14.9018 18.8354 13.9735L10.8367 0.770573C10.2852 -0.256858 8.70677 -0.256858 8.15528 0.770573L0.156617 13.9735C-0.334072 14.8998 0.386764 16 1.50493 16ZM10.7585 12.9298C10.7585 13.6155 10.2223 14.1433 9.45583 14.1433C8.6894 14.1433 8.15311 13.6155 8.15311 12.9298V12.9015C8.15311 12.2159 8.6894 11.688 9.45583 11.688C10.2223 11.688 10.7585 12.2159 10.7585 12.9015V12.9298ZM8.75236 4.01062H10.2548C10.6674 4.01062 10.9127 4.33826 10.8671 4.75288L10.2071 10.1186C10.1615 10.5049 9.88572 10.7455 9.50142 10.7455C9.11929 10.7455 8.84138 10.5028 8.79579 10.1186L8.13574 4.75288C8.09449 4.33826 8.33984 4.01062 8.75236 4.01062Z"
+                                  fill="#FBBF24"></path>
                         </svg>
                     </div>
                     <div class="w-full">
@@ -35,7 +39,8 @@
                 </div>
 
                 <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                    <form action="#">
+                    <form method="post" action="/investor/invest" onsubmit="return validateForm()">
+                        <input type="hidden" name="${csrfToken.getParameterName()}" value="${csrfToken.getToken()}">
                         <div class="p-6.5">
 
                             <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
@@ -47,13 +52,14 @@
                                          class="relative z-20 bg-transparent dark:bg-form-input">
                                         <select class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                 :class="isOptionSelected &amp;&amp; 'text-black dark:text-white'"
-                                                @change="isOptionSelected = true">
+                                                @change="isOptionSelected = true" name="investment.id" id="investment" required>
                                             <option value="" class="text-body">
                                                 Select Investment
                                             </option>
-                                            <option value="" class="text-body">USA</option>
-                                            <option value="" class="text-body">UK</option>
-                                            <option value="" class="text-body">Canada</option>
+                                            @for(var investment: investments)
+                                                <option value="${investment.getId()}" class="text-body"
+                                                        data-amount="${investment.getAmount()}">${investment.getName()}</option>
+                                            @endfor
                                         </select>
                                         <span class="absolute right-4 top-1/2 z-30 -translate-y-1/2">
                                         <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -72,7 +78,7 @@
                                     <label class="mb-3 block text-sm font-medium text-black dark:text-white">
                                         Investment amount
                                     </label>
-                                    <input type="text" placeholder="Investment amount" disabled
+                                    <input type="text" id="investmentAmount" placeholder="Investment amount" disabled required
                                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
                                 </div>
                             </div>
@@ -82,14 +88,18 @@
                                     <label class="mb-3 block text-sm font-medium text-black dark:text-white">
                                         Deposit Tx Id <span class="text-meta-1">*</span>
                                     </label>
-                                    <input type="text" placeholder="Deposit Tx Id"
+                                    <input type="text" id="transactionHash" name="transactionHash"
+                                           value="${investorInvestment.getTransactionHash()}"
+                                           placeholder="Deposit Tx Id"
+                                           required
                                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
                                 </div>
                                 <div class="w-full xl:w-1/2">
                                     <label class="mb-3 block text-sm font-medium text-black dark:text-white">
                                         Confirm Deposit Tx Id <span class="text-meta-1">*</span>
                                     </label>
-                                    <input type="email" placeholder=" Confirm Deposit Tx Id"
+                                    <input type="text" id="confirmTransactionHash" placeholder=" Confirm Deposit Tx Id"
+                                           required
                                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
                                 </div>
                             </div>
@@ -106,6 +116,30 @@
     </div>
 </div>
 @template.partials.footer()
+<script>
+    function onInvestmentSelected() {
+        const selectElement = document.getElementById("investment");
+
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const investorName = selectedOption.getAttribute("data-amount");
+
+        document.getElementById("investmentAmount").value = investorName || "";
+    }
+
+    function validateForm(){
+        let valid = false;
+        if( document.getElementById("transactionHash").value != "" &&
+        document.getElementById("transactionHash").value.length > 15 &&
+        document.getElementById("transactionHash").value == document.getElementById("confirmTransactionHash").value
+        ){
+            valid = true
+        }
+        return valid;
+    }
+    window.onload = function () {
+        document.getElementById("investment").addEventListener("change", onInvestmentSelected);
+    };
+</script>
 </body>
 
 </html>
