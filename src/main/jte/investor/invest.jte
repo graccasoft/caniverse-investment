@@ -121,9 +121,9 @@
         const selectElement = document.getElementById("investment");
 
         const selectedOption = selectElement.options[selectElement.selectedIndex];
-        const investorName = selectedOption.getAttribute("data-amount");
+        const amount = selectedOption.getAttribute("data-amount");
 
-        document.getElementById("investmentAmount").value = investorName || "";
+        document.getElementById("investmentAmount").value = amount || "";
     }
 
     function validateForm(){

@@ -1,3 +1,4 @@
+@param java.util.List<io.caniverse.investment.model.entity.Withdrawal> withdrawals
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +29,7 @@
                             <p class="font-medium">Package</p>
                         </div>
                         <div class="col-span-2 items-center sm:flex">
-                            <p class="font-medium">Date</p>
+                            <p class="font-medium">Details</p>
                         </div>
                         <div class="col-span-1 flex items-center">
                             <p class="font-medium">Status</p>
@@ -36,25 +37,34 @@
 
                     </div>
 
+                    @for(var withdrawal: withdrawals)
                     <div class="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
                         <div class="col-span-3 flex items-center">
                             <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
 
                                 <p class="text-sm font-medium text-black dark:text-white">
-                                    Apple Watch Series 7
+                                    ${withdrawal.getInvestorInvestment().getInvestment().getName()}<br>
+                                    ${withdrawal.getAmount()}
                                 </p>
                             </div>
                         </div>
 
                         <div class="col-span-2 flex items-center">
-                            <p class="text-sm font-medium text-black dark:text-white">$269</p>
+                            <p class="text-sm font-medium text-black dark:text-white">
+                                ${withdrawal.getAddress()}<br>
+                                ${withdrawal.getCreatedOn().toString()}
+                            </p>
                         </div>
                         <div class="col-span-1 flex items-center">
                             <p class="inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-sm font-medium text-success">
-                                Paid
+                                ${withdrawal.getStatus()}
                             </p>
+                            @if(withdrawal.getStatus().equals(io.caniverse.investment.model.enums.TransactionStatus.APPROVED))
+                            <small>${withdrawal.getTransactionHash()}</small>
+                            @endif
                         </div>
                     </div>
+                    @endfor
 
                 </div>
             </div>

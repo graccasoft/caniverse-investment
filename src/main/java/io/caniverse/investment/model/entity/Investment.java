@@ -11,6 +11,8 @@ public class Investment extends BaseEntity {
     private BigDecimal amount;
     private BigDecimal profitAmount;
     private Integer period;
+    private Integer numberOfWithdrawals;
+    private BigDecimal withdrawalAmount;
 
     public String getName() {
         return name;
@@ -50,5 +52,21 @@ public class Investment extends BaseEntity {
 
     public void setPeriod(Integer period) {
         this.period = period;
+    }
+
+    public Integer getNumberOfWithdrawals() {
+        return numberOfWithdrawals;
+    }
+
+    public void setNumberOfWithdrawals(Integer numberOfWithdrawals) {
+        this.numberOfWithdrawals = numberOfWithdrawals;
+    }
+
+    public BigDecimal getWithdrawalAmount() {
+        return withdrawalAmount;
+    }
+
+    public void setWithdrawalAmount(BigDecimal withdrawalAmount) {
+        this.withdrawalAmount = withdrawalAmount;
     }
 }

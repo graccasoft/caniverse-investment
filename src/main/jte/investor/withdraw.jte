@@ -1,3 +1,7 @@
+@param org.springframework.security.web.csrf.CsrfToken csrfToken
+@param java.util.List<io.caniverse.investment.model.entity.InvestorInvestment> investments
+@param io.caniverse.investment.model.dto.WithdrawDto withdrawal
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +21,8 @@
                 <h2 class="text-title-md2 font-bold text-black dark:text-white mb-4">Make Withdrawal</h2>
                 <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
 
-                    <form action="#">
+                    <form action="/investor/withdraw" method="post">
+                        <input type="hidden" name="${csrfToken.getParameterName()}" value="${csrfToken.getToken()}">
                         <div class="p-6.5">
 
                             <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
@@ -29,13 +34,15 @@
                                          class="relative z-20 bg-transparent dark:bg-form-input">
                                         <select class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                 :class="isOptionSelected &amp;&amp; 'text-black dark:text-white'"
-                                                @change="isOptionSelected = true">
+                                                @change="isOptionSelected = true" id="investment" name="investorInvestmentId" >
                                             <option value="" class="text-body">
                                                 Select Investment
                                             </option>
-                                            <option value="" class="text-body">USA</option>
-                                            <option value="" class="text-body">UK</option>
-                                            <option value="" class="text-body">Canada</option>
+                                            @for(var investment: investments)
+                                            <option value="${investment.getId()}"  data-amount="${investment.getInvestment().getWithdrawalAmount()}">
+                                                ${investment.getInvestment().getName()}
+                                            </option>
+                                            @endfor
                                         </select>
                                         <span class="absolute right-4 top-1/2 z-30 -translate-y-1/2">
                                         <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -54,7 +61,7 @@
                                     <label class="mb-3 block text-sm font-medium text-black dark:text-white">
                                         Withdrawal amount
                                     </label>
-                                    <input type="text" placeholder="Withdrawal amount" disabled
+                                    <input type="text" placeholder="Withdrawal amount" id="amount" disabled
                                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
                                 </div>
                             </div>
@@ -64,14 +71,14 @@
                                     <label class="mb-3 block text-sm font-medium text-black dark:text-white">
                                         Withdrawal address <span class="text-meta-1">*</span>
                                     </label>
-                                    <input type="text" placeholder="Withdrawal address"
+                                    <input type="text" placeholder="Withdrawal address" id="withdrawalAddress" name="address"
                                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
                                 </div>
                                 <div class="w-full xl:w-1/2">
                                     <label class="mb-3 block text-sm font-medium text-black dark:text-white">
                                         Confirm Withdrawal address <span class="text-meta-1">*</span>
                                     </label>
-                                    <input type="email" placeholder="Confirm Withdrawal address"
+                                    <input type="text" placeholder="Confirm Withdrawal address" id="confirmWithdrawalAddress"
                                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
                                 </div>
                             </div>
@@ -88,6 +95,30 @@
     </div>
 </div>
 @template.partials.footer()
+<script>
+    function onInvestmentSelected() {
+        const selectElement = document.getElementById("investment");
+
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const amount = selectedOption.getAttribute("data-amount");
+
+        document.getElementById("amount").value = amount || "";
+    }
+
+    function validateForm(){
+        let valid = false;
+        if( document.getElementById("withdrawalAddress").value != "" &&
+        document.getElementById("withdrawalAddress").value.length > 15 &&
+        document.getElementById("withdrawalAddress").value == document.getElementById("confirmWithdrawalAddress").value
+        ){
+            valid = true
+        }
+        return valid;
+    }
+    window.onload = function () {
+        document.getElementById("investment").addEventListener("change", onInvestmentSelected);
+    };
+</script>
 </body>
 
 </html>

@@ -1,8 +1,11 @@
 package io.caniverse.investment.controller;
 
+import io.caniverse.investment.model.dto.WithdrawDto;
 import io.caniverse.investment.model.entity.InvestorInvestment;
+import io.caniverse.investment.model.entity.Withdrawal;
 import io.caniverse.investment.service.InvestmentService;
 import io.caniverse.investment.service.InvestorInvestmentService;
+import io.caniverse.investment.service.WithdrawalService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -18,10 +21,12 @@ public class InvestorController {
 
     private final InvestmentService investmentService;
     private final InvestorInvestmentService investorInvestmentService;
+    private final WithdrawalService withdrawalService;
 
-    public InvestorController(InvestmentService investmentService, InvestorInvestmentService investorInvestmentService) {
+    public InvestorController(InvestmentService investmentService, InvestorInvestmentService investorInvestmentService, WithdrawalService withdrawalService) {
         this.investmentService = investmentService;
         this.investorInvestmentService = investorInvestmentService;
+        this.withdrawalService = withdrawalService;
     }
 
     @GetMapping
@@ -31,13 +36,22 @@ public class InvestorController {
     }
 
     @GetMapping("withdrawals")
-    String withdrawals(){
+    String withdrawals(Model model, Authentication authentication){
+        model.addAttribute("withdrawals", withdrawalService.getCurrentUserWithdrawals(authentication));
         return "investor/withdrawals";
     }
 
     @GetMapping("withdraw")
-    String withdraw(){
+    String withdraw(Model model, Authentication authentication, CsrfToken csrfToken){
+        model.addAttribute("investments", investorInvestmentService.getCurrentUserInvestments(authentication));
+        model.addAttribute("csrfToken",csrfToken);
+        model.addAttribute("withdrawal", new WithdrawDto());
         return "investor/withdraw";
+    }
+    @PostMapping("withdraw")
+    String doWithdraw(@ModelAttribute WithdrawDto withdrawal, Authentication authentication){
+        withdrawalService.save(withdrawal, authentication);
+        return "redirect:/investor/withdrawals";
     }
 
     @GetMapping("investments")

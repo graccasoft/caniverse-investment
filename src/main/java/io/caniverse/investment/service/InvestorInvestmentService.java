@@ -1,5 +1,6 @@
 package io.caniverse.investment.service;
 
+import io.caniverse.investment.exception.RecordNotFoundException;
 import io.caniverse.investment.model.entity.InvestorInvestment;
 import io.caniverse.investment.model.entity.User;
 import io.caniverse.investment.model.enums.InvestmentStatus;
@@ -23,15 +24,25 @@ public class InvestorInvestmentService {
     }
 
     public List<InvestorInvestment> getCurrentUserInvestments(Authentication authentication){
-        User user = (User)userDetailsService.loadUserByUsername(authentication.getName());
+        var user = (User)userDetailsService.loadUserByUsername(authentication.getName());
         return investorInvestmentRepository.findAllByInvestor(investorService.getInvestorFromUser(user));
     }
 
-    public InvestorInvestment save(InvestorInvestment investorInvestment, Authentication authentication){
-        User user = (User)userDetailsService.loadUserByUsername(authentication.getName());
+    public void save(InvestorInvestment investorInvestment, Authentication authentication){
+        var user = (User)userDetailsService.loadUserByUsername(authentication.getName());
         investorInvestment.setInvestor( investorService.getInvestorFromUser(user) );
         investorInvestment.setStatus(InvestmentStatus.PENDING);
 
-        return investorInvestmentRepository.save(investorInvestment);
+        investorInvestmentRepository.save(investorInvestment);
+    }
+
+    public InvestorInvestment getInvestorInvestment(Long id){
+        return investorInvestmentRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("Investment not found"));
+    }
+
+    public void updateStatus(Long id, InvestmentStatus status){
+        var investorInvestment = investorInvestmentRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("Investment not found"));
+        investorInvestment.setStatus(status);
+        investorInvestmentRepository.save(investorInvestment);
     }
 }

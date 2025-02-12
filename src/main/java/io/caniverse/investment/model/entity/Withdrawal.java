@@ -13,6 +13,8 @@ public class Withdrawal extends BaseEntity {
     private BigDecimal amount;
 
     private TransactionStatus status;
+    private String address;
+    private String transactionHash;
 
     public InvestorInvestment getInvestorInvestment() {
         return investorInvestment;
@@ -36,5 +38,21 @@ public class Withdrawal extends BaseEntity {
 
     public void setStatus(TransactionStatus status) {
         this.status = status;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getTransactionHash() {
+        return transactionHash;
+    }
+
+    public void setTransactionHash(String transactionHash) {
+        this.transactionHash = transactionHash;
     }
 }
