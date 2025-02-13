@@ -2,9 +2,9 @@ package io.caniverse.investment.controller;
 
 import io.caniverse.investment.model.dto.WithdrawDto;
 import io.caniverse.investment.model.entity.InvestorInvestment;
-import io.caniverse.investment.model.entity.Withdrawal;
 import io.caniverse.investment.service.InvestmentService;
 import io.caniverse.investment.service.InvestorInvestmentService;
+import io.caniverse.investment.service.InvestorService;
 import io.caniverse.investment.service.WithdrawalService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -22,16 +22,20 @@ public class InvestorController {
     private final InvestmentService investmentService;
     private final InvestorInvestmentService investorInvestmentService;
     private final WithdrawalService withdrawalService;
+    private final InvestorService investorService;
 
-    public InvestorController(InvestmentService investmentService, InvestorInvestmentService investorInvestmentService, WithdrawalService withdrawalService) {
+    public InvestorController(InvestmentService investmentService, InvestorInvestmentService investorInvestmentService, WithdrawalService withdrawalService, InvestorService investorService) {
         this.investmentService = investmentService;
         this.investorInvestmentService = investorInvestmentService;
         this.withdrawalService = withdrawalService;
+        this.investorService = investorService;
     }
 
     @GetMapping
-    String dashboard(Model model){
+    String dashboard(Model model, Authentication authentication){
         model.addAttribute("investments", investmentService.getAll());
+        model.addAttribute("investmentSummary", investorInvestmentService.getInvestorSummary(authentication));
+        model.addAttribute("withdrawalSummary", withdrawalService.getInvestorSummary(authentication));
         return "investor/dashboard";
     }
 
@@ -72,5 +76,11 @@ public class InvestorController {
     String doInvest(@ModelAttribute InvestorInvestment investorInvestment, Authentication authentication){
         investorInvestmentService.save(investorInvestment, authentication);
         return "redirect:/investor/investments";
+    }
+
+    @GetMapping("profile")
+    String profile(Model model, Authentication authentication){
+        model.addAttribute("investor", investorService.getInvestorFromAuthentication(authentication));
+        return "investor/profile";
     }
 }

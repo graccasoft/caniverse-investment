@@ -1,6 +1,7 @@
 package io.caniverse.investment.service;
 
 import io.caniverse.investment.exception.RecordNotFoundException;
+import io.caniverse.investment.model.dto.InvestmentSummary;
 import io.caniverse.investment.model.entity.InvestorInvestment;
 import io.caniverse.investment.model.entity.User;
 import io.caniverse.investment.model.enums.InvestmentStatus;
@@ -13,24 +14,20 @@ import java.util.List;
 @Service
 public class InvestorInvestmentService {
 
-    private final UserDetailsServiceImpl userDetailsService;
     private final InvestorInvestmentRepository investorInvestmentRepository;
     private final InvestorService investorService;
 
-    public InvestorInvestmentService(UserDetailsServiceImpl userDetailsService, InvestorInvestmentRepository investorInvestmentRepository, InvestorService investorService) {
-        this.userDetailsService = userDetailsService;
+    public InvestorInvestmentService(InvestorInvestmentRepository investorInvestmentRepository, InvestorService investorService) {
         this.investorInvestmentRepository = investorInvestmentRepository;
         this.investorService = investorService;
     }
 
     public List<InvestorInvestment> getCurrentUserInvestments(Authentication authentication){
-        var user = (User)userDetailsService.loadUserByUsername(authentication.getName());
-        return investorInvestmentRepository.findAllByInvestor(investorService.getInvestorFromUser(user));
+        return investorInvestmentRepository.findAllByInvestor(investorService.getInvestorFromAuthentication(authentication));
     }
 
     public void save(InvestorInvestment investorInvestment, Authentication authentication){
-        var user = (User)userDetailsService.loadUserByUsername(authentication.getName());
-        investorInvestment.setInvestor( investorService.getInvestorFromUser(user) );
+        investorInvestment.setInvestor( investorService.getInvestorFromAuthentication(authentication) );
         investorInvestment.setStatus(InvestmentStatus.PENDING);
 
         investorInvestmentRepository.save(investorInvestment);
@@ -44,5 +41,9 @@ public class InvestorInvestmentService {
         var investorInvestment = investorInvestmentRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("Investment not found"));
         investorInvestment.setStatus(status);
         investorInvestmentRepository.save(investorInvestment);
+    }
+
+    public InvestmentSummary getInvestorSummary(Authentication authentication){
+       return investorInvestmentRepository.getInvestorSummary(investorService.getInvestorFromAuthentication(authentication).getId());
     }
 }
