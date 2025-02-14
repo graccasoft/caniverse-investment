@@ -6,6 +6,8 @@ import io.caniverse.investment.service.InvestmentService;
 import io.caniverse.investment.service.InvestorInvestmentService;
 import io.caniverse.investment.service.InvestorService;
 import io.caniverse.investment.service.WithdrawalService;
+import io.caniverse.investment.utils.WebUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -36,18 +38,21 @@ public class InvestorController {
         model.addAttribute("investments", investmentService.getAll());
         model.addAttribute("investmentSummary", investorInvestmentService.getInvestorSummary(authentication));
         model.addAttribute("withdrawalSummary", withdrawalService.getInvestorSummary(authentication));
+        model.addAttribute("investor", investorService.getInvestorFromAuthentication(authentication));
         return "investor/dashboard";
     }
 
     @GetMapping("withdrawals")
     String withdrawals(Model model, Authentication authentication){
         model.addAttribute("withdrawals", withdrawalService.getCurrentUserWithdrawals(authentication));
+        model.addAttribute("investor", investorService.getInvestorFromAuthentication(authentication));
         return "investor/withdrawals";
     }
 
     @GetMapping("withdraw")
     String withdraw(Model model, Authentication authentication, CsrfToken csrfToken){
         model.addAttribute("investments", investorInvestmentService.getCurrentUserInvestments(authentication));
+        model.addAttribute("investor", investorService.getInvestorFromAuthentication(authentication));
         model.addAttribute("csrfToken",csrfToken);
         model.addAttribute("withdrawal", new WithdrawDto());
         return "investor/withdraw";
@@ -61,26 +66,30 @@ public class InvestorController {
     @GetMapping("investments")
     String investments(Model model, Authentication authentication){
         model.addAttribute("investments", investorInvestmentService.getCurrentUserInvestments(authentication));
+        model.addAttribute("investor", investorService.getInvestorFromAuthentication(authentication));
         return "investor/investments";
     }
 
     @GetMapping("invest")
-    String invest(Model model, CsrfToken csrfToken){
+    String invest(Model model, CsrfToken csrfToken, Authentication authentication){
         model.addAttribute("investorInvestment", new InvestorInvestment());
         model.addAttribute("investments", investmentService.getAll());
+        model.addAttribute("investor", investorService.getInvestorFromAuthentication(authentication));
         model.addAttribute("csrfToken", csrfToken);
         return "investor/invest";
     }
 
     @PostMapping("invest")
     String doInvest(@ModelAttribute InvestorInvestment investorInvestment, Authentication authentication){
+
         investorInvestmentService.save(investorInvestment, authentication);
         return "redirect:/investor/investments";
     }
 
     @GetMapping("profile")
-    String profile(Model model, Authentication authentication){
+    String profile(Model model, Authentication authentication, HttpServletRequest request){
         model.addAttribute("investor", investorService.getInvestorFromAuthentication(authentication));
+        model.addAttribute("baseUrl", WebUtils.getBaseUrl(request));
         return "investor/profile";
     }
 }

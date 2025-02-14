@@ -1,7 +1,6 @@
 @param org.springframework.security.web.csrf.CsrfToken csrfToken
 @param java.util.List<io.caniverse.investment.model.entity.InvestorInvestment> investments
-@param io.caniverse.investment.model.dto.WithdrawDto withdrawal
-
+@param io.caniverse.investment.model.entity.Investor investor
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +13,7 @@
 <div class="flex h-screen overflow-hidden">
     @template.investor.aside()
     <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-        @template.partials.profile()
+        @template.partials.profile(investor = investor)
         <main>
             <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
 

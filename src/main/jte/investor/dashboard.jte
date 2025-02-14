@@ -1,6 +1,7 @@
 @param java.util.List<io.caniverse.investment.model.entity.Investment> investments
 @param io.caniverse.investment.model.dto.InvestmentSummary investmentSummary
 @param io.caniverse.investment.model.dto.WithdrawalSummary withdrawalSummary
+@param io.caniverse.investment.model.entity.Investor investor
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,7 @@
 <div class="flex h-screen overflow-hidden">
     @template.investor.aside()
     <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-        @template.partials.profile()
+        @template.partials.profile(investor = investor)
         <main>
             <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
 
@@ -201,9 +202,9 @@
                             </div>
                             <p class="text-center">Invest $${investment.getAmount()} over ${investment.getPeriod()} months and get $${investment.getProfitAmount().add(investment.getAmount())}</p>
                             <div class="flex items-center gap-4">
-                                <button class="bg-meta-3 font-medium hover:text-primary justify-center py-2 rounded text-sm text-white w-full hover:text-white">
+                                <a href="/investor/invest" class="text-center bg-meta-3 font-medium hover:text-primary justify-center py-2 rounded text-sm text-white w-full hover:text-white">
                                     Invest Now
-                                </button>
+                                </a>
                             </div>
                         </div>
                         @endfor

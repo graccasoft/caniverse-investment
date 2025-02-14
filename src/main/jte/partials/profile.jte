@@ -1,3 +1,4 @@
+@param io.caniverse.investment.model.entity.Investor investor = null
 <header
         class="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none"
 >
@@ -63,13 +64,17 @@
                 >
           <span class="hidden text-right lg:block">
             <span class="block text-sm font-medium text-black dark:text-white"
-            >Thomas Anree</span
             >
-            <span class="block text-xs font-medium">UX Designer</span>
+                @if(investor != null)
+                    ${investor.getName()}
+                @endif
+            </span
+            >
+            <span class="block text-xs font-medium">Investor</span>
           </span>
 
                     <span class="h-12 w-12 rounded-full">
-            <img src="/images/user/user-01.png" alt="User"/>
+            <img src="/images/user/user.png" alt="User"/>
           </span>
 
                     <svg
