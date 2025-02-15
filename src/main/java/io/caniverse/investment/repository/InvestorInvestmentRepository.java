@@ -23,4 +23,11 @@ public interface InvestorInvestmentRepository extends JpaRepository<InvestorInve
                     GROUP BY i.investor
                     """)
     InvestmentSummary getInvestorSummary(@Param("investorId") Long investorId);
+
+    @Query(
+            """
+                    SELECT SUM(i.investment.amount) AS totalInvestment, SUM(i.investment.profitAmount) AS totalProfit
+                    FROM InvestorInvestment i
+                    """)
+    InvestmentSummary getSummary();
 }

@@ -36,6 +36,11 @@ public class SecurityConfig {
                         .failureUrl("/login?error=1")
                         .successHandler(authenticationSuccessHandler)
                 )
+                .logout(logout->logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                        .permitAll()
+                )
                 .build();
     }
 

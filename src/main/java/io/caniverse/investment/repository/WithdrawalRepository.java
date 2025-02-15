@@ -18,4 +18,7 @@ public interface WithdrawalRepository extends JpaRepository<Withdrawal, Long> {
 
     @Query("SELECT SUM(w.amount) FROM Withdrawal w WHERE w.investorInvestment.investor = :investor AND w.status = :status")
     BigDecimal getTotalByInvestorAndStatus(@Param("investor") Investor investor, @Param("status") TransactionStatus status);
+
+    @Query("SELECT SUM(w.amount) FROM Withdrawal w WHERE w.status = :status")
+    BigDecimal getTotalByStatus(@Param("status") TransactionStatus status);
 }

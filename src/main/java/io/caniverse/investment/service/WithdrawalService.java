@@ -1,6 +1,7 @@
 package io.caniverse.investment.service;
 
 import io.caniverse.investment.exception.RecordNotFoundException;
+import io.caniverse.investment.model.dto.ApproveWithdrawalDto;
 import io.caniverse.investment.model.dto.WithdrawDto;
 import io.caniverse.investment.model.dto.WithdrawalSummary;
 import io.caniverse.investment.model.entity.User;
@@ -37,6 +38,14 @@ public class WithdrawalService {
         return withdrawalRepository.findAllByInvestorInvestment_Investor(investor);
     }
 
+    public List<Withdrawal> getAll(){
+        return withdrawalRepository.findAll();
+    }
+
+    public Withdrawal getWithdrawal(Long id){
+        return withdrawalRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("Withdrawal not found"));
+    }
+
     public void save(WithdrawDto withdrawDto, Authentication authentication){
         var investor = investorService.getInvestorFromAuthentication(authentication);
 
@@ -66,9 +75,10 @@ public class WithdrawalService {
 
     }
 
-    public void updateStatus(Long id, TransactionStatus status){
-        var withdrawal = withdrawalRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("Withdrawal record not found"));
-        withdrawal.setStatus(status);
+    public void updateStatus(ApproveWithdrawalDto approveWithdrawalDto){
+        var withdrawal = withdrawalRepository.findById(approveWithdrawalDto.id()).orElseThrow(()-> new RecordNotFoundException("Withdrawal record not found"));
+        withdrawal.setStatus(approveWithdrawalDto.transactionStatus());
+        withdrawal.setTransactionHash(approveWithdrawalDto.transactionHash());
         withdrawalRepository.save(withdrawal);
     }
 
@@ -76,6 +86,15 @@ public class WithdrawalService {
         var investor = investorService.getInvestorFromAuthentication(authentication);
         var pending = withdrawalRepository.getTotalByInvestorAndStatus(investor, TransactionStatus.PENDING);
         var approved = withdrawalRepository.getTotalByInvestorAndStatus(investor, TransactionStatus.APPROVED);
+        return new WithdrawalSummary(
+                pending == null ? BigDecimal.ZERO : pending,
+                approved == null ? BigDecimal.ZERO : approved
+        );
+    }
+
+    public WithdrawalSummary getSummary(){
+        var pending = withdrawalRepository.getTotalByStatus(TransactionStatus.PENDING);
+        var approved = withdrawalRepository.getTotalByStatus(TransactionStatus.APPROVED);
         return new WithdrawalSummary(
                 pending == null ? BigDecimal.ZERO : pending,
                 approved == null ? BigDecimal.ZERO : approved

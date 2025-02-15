@@ -33,7 +33,7 @@
                                          class="relative z-20 bg-transparent dark:bg-form-input">
                                         <select class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                 :class="isOptionSelected &amp;&amp; 'text-black dark:text-white'"
-                                                @change="isOptionSelected = true" id="investment" name="investorInvestmentId" >
+                                                @change="isOptionSelected = true" id="investment" name="investorInvestmentId" required>
                                             <option value="" class="text-body">
                                                 Select Investment
                                             </option>
@@ -70,14 +70,14 @@
                                     <label class="mb-3 block text-sm font-medium text-black dark:text-white">
                                         Withdrawal address <span class="text-meta-1">*</span>
                                     </label>
-                                    <input type="text" placeholder="Withdrawal address" id="withdrawalAddress" name="address"
+                                    <input type="text" required placeholder="Withdrawal address" id="withdrawalAddress" name="address"
                                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
                                 </div>
                                 <div class="w-full xl:w-1/2">
                                     <label class="mb-3 block text-sm font-medium text-black dark:text-white">
                                         Confirm Withdrawal address <span class="text-meta-1">*</span>
                                     </label>
-                                    <input type="text" placeholder="Confirm Withdrawal address" id="confirmWithdrawalAddress"
+                                    <input type="text" required placeholder="Confirm Withdrawal address" id="confirmWithdrawalAddress"
                                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
                                 </div>
                             </div>

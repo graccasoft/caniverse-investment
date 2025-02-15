@@ -1,3 +1,4 @@
+@param java.util.List<io.caniverse.investment.model.entity.Withdrawal> withdrawals
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
 <div class="flex h-screen overflow-hidden">
     @template.admin.aside()
     <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-        @template.partials.profile()
+        @template.partials.admin-profile()
         <main>
             <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
 
@@ -41,41 +42,51 @@
                                     </span>
                         </div>
                     </div>
-                    <div class="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
-                        <div class="col-span-2 flex items-center">
-                            <p class="font-medium">Investor</p>
-                        </div>
-                        <div class="col-span-2 flex items-center">
-                            <p class="font-medium">Package</p>
-                        </div>
-                        <div class="col-span-2 items-center sm:flex">
-                            <p class="font-medium">Amount</p>
-                        </div>
-                        <div class="col-span-1 flex items-center">
-                            <p class="font-medium">Status</p>
-                        </div>
+                    <div class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+                        <div class="max-w-full overflow-x-auto">
+                            <div class="min-w-[1102px]">
+                                <div class="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
+                                    <div class="col-span-2 flex items-center">
+                                        <p class="font-medium">Investor</p>
+                                    </div>
+                                    <div class="col-span-2 flex items-center">
+                                        <p class="font-medium">Package</p>
+                                    </div>
+                                    <div class="col-span-2 items-center sm:flex">
+                                        <p class="font-medium">Amount</p>
+                                    </div>
+                                    <div class="col-span-1 flex items-center">
+                                        <p class="font-medium">Status</p>
+                                    </div>
 
-                    </div>
+                                </div>
 
-                    <div class="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
-                        <div class="col-span-2 flex items-center">
-                            <p class="text-sm font-medium text-black dark:text-white">Investor 1</p>
-                        </div>
-                        <div class="col-span-2 flex items-center">
-                            <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-                                Long term
+                                @for(var withdrawal: withdrawals)
+                                <div class="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
+                                    <div class="col-span-2 flex items-center">
+                                        <p class="text-sm font-medium text-black dark:text-white">
+                                            ${withdrawal.getInvestorInvestment().getInvestor().getName()}<br>
+                                            [ <a href="/admin/withdrawals/${withdrawal.getId()}">View</a> ]
+                                        </p>
+                                    </div>
+                                    <div class="col-span-2 flex items-center">
+                                        <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+                                            ${withdrawal.getInvestorInvestment().getInvestment().getName()}
+                                        </div>
+                                    </div>
+                                    <div class="col-span-2 flex items-center">
+                                        <p class="text-sm font-medium text-black dark:text-white">$${withdrawal.getAmount()}</p>
+                                    </div>
+                                    <div class="col-span-1 flex items-center">
+                                        <p class="inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-sm font-medium text-success">
+                                            ${withdrawal.getStatus()}
+                                        </p>
+                                    </div>
+                                </div>
+                                @endfor
                             </div>
                         </div>
-                        <div class="col-span-2 flex items-center">
-                            <p class="text-sm font-medium text-black dark:text-white">$269</p>
-                        </div>
-                        <div class="col-span-1 flex items-center">
-                            <p class="inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-sm font-medium text-success">
-                                Pending
-                            </p>
-                        </div>
                     </div>
-
                 </div>
             </div>
         </main>

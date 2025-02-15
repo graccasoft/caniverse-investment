@@ -1,4 +1,3 @@
-@param java.util.List<io.caniverse.investment.model.entity.Investment> investments
 @param io.caniverse.investment.model.dto.InvestmentSummary investmentSummary
 @param io.caniverse.investment.model.dto.WithdrawalSummary withdrawalSummary
 @param io.caniverse.investment.model.entity.Investor investor
@@ -12,9 +11,9 @@
 >
 @template.partials.preloader()
 <div class="flex h-screen overflow-hidden">
-    @template.investor.aside()
+    @template.admin.aside()
     <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-        @template.partials.profile(investor = investor)
+        @template.partials.admin-profile()
         <main>
             <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
 
@@ -46,7 +45,7 @@
                         <div class="mt-4 flex items-end justify-between">
                             <div>
                                 <h4 class="text-title-md font-bold text-black dark:text-white">
-                                    $${investmentSummary == null ? 0 : investmentSummary.getTotalInvestment()}
+                                    $${investmentSummary.getTotalInvestment()}
                                 </h4>
                                 <span class="text-sm font-medium">Total investment</span>
                             </div>
@@ -82,7 +81,7 @@
                         <div class="mt-4 flex items-end justify-between">
                             <div>
                                 <h4 class="text-title-md font-bold text-black dark:text-white">
-                                    $${investmentSummary == null ? 0 : investmentSummary.getTotalProfit()}
+                                    $${investmentSummary.getTotalProfit()}
                                 </h4>
                                 <span class="text-sm font-medium">Total Profit</span>
                             </div>
@@ -163,54 +162,6 @@
                     <!-- Card Item End -->
                 </div>
 
-                <div class="col-span-12 mb-5 rounded-sm border border-stroke bg-white px-5 pb-10 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7 xl:col-span-5 pb-6">
-                    <div class="mb-7.5 flex items-center justify-between">
-                        <div>
-                            <h3 class="text-title-sm2 font-bold text-black dark:text-white">
-                                Investment Packages
-                            </h3>
-                        </div>
-
-                    </div>
-
-                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
-                        @for(var investment: investments)
-                        <div class="rounded p-4 border border-stroke dark:border-strokedark">
-                            <div class="mb-5.5 flex items-center justify-between">
-                                <div class="flex items-center gap-4.5">
-                                    <div class="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-[#EEF2F8]">
-                                        <svg class="fill-primary dark:fill-white" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M21.1063 18.0469L19.3875 3.23126C19.2157 1.71876 17.9438 0.584381 16.3969 0.584381H5.56878C4.05628 0.584381 2.78441 1.71876 2.57816 3.23126L0.859406 18.0469C0.756281 18.9063 1.03128 19.7313 1.61566 20.3844C2.20003 21.0375 2.99066 21.3813 3.85003 21.3813H18.1157C18.975 21.3813 19.8 21.0031 20.35 20.3844C20.9 19.7656 21.2094 18.9063 21.1063 18.0469ZM19.2157 19.3531C18.9407 19.6625 18.5625 19.8344 18.15 19.8344H3.85003C3.43753 19.8344 3.05941 19.6625 2.78441 19.3531C2.50941 19.0438 2.37191 18.6313 2.44066 18.2188L4.12503 3.43751C4.19378 2.71563 4.81253 2.16563 5.56878 2.16563H16.4313C17.1532 2.16563 17.7719 2.71563 17.875 3.43751L19.5938 18.2531C19.6282 18.6656 19.4907 19.0438 19.2157 19.3531Z" fill=""></path>
-                                            <path d="M14.3345 5.29375C13.922 5.39688 13.647 5.80938 13.7501 6.22188C13.7845 6.42813 13.8189 6.63438 13.8189 6.80625C13.8189 8.35313 12.547 9.625 11.0001 9.625C9.45327 9.625 8.1814 8.35313 8.1814 6.80625C8.1814 6.6 8.21577 6.42813 8.25015 6.22188C8.35327 5.80938 8.07827 5.39688 7.66577 5.29375C7.25327 5.19063 6.84077 5.46563 6.73765 5.87813C6.6689 6.1875 6.63452 6.49688 6.63452 6.80625C6.63452 9.2125 8.5939 11.1719 11.0001 11.1719C13.4064 11.1719 15.3658 9.2125 15.3658 6.80625C15.3658 6.49688 15.3314 6.1875 15.2626 5.87813C15.1595 5.46563 14.747 5.225 14.3345 5.29375Z" fill=""></path>
-                                        </svg>
-                                    </div>
-
-                                    <div>
-                                        <h5 class="font-bold text-black dark:text-white">${investment.getName()}</h5>
-                                        <p class="text-xs font-medium">${investment.getAmount()}</p>
-                                    </div>
-                                </div>
-
-                                <div class="text-right">
-                                    <p class="mb-0.5 flex items-center justify-end gap-1 text-xs font-medium text-meta-3">
-                                       ${investment.getPeriod()} Months
-                                    </p>
-                                    <p class="text-xs font-medium text-meta-3">
-                                        + ${ investment.getProfitAmount().add( investment.getAmount() ) }
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="text-center">Invest $${investment.getAmount()} over ${investment.getPeriod()} months and get $${investment.getProfitAmount().add(investment.getAmount())}</p>
-                            <div class="flex items-center gap-4">
-                                <a href="/investor/invest" class="text-center bg-meta-3 font-medium hover:text-primary justify-center py-2 rounded text-sm text-white w-full hover:text-white">
-                                    Invest Now
-                                </a>
-                            </div>
-                        </div>
-                        @endfor
-
-                    </div>
-                </div>
 
             </div>
         </main>

@@ -1,9 +1,9 @@
 package io.caniverse.investment.service;
 
 import io.caniverse.investment.exception.RecordNotFoundException;
+import io.caniverse.investment.model.dto.ApproveInvestmentDto;
 import io.caniverse.investment.model.dto.InvestmentSummary;
 import io.caniverse.investment.model.entity.InvestorInvestment;
-import io.caniverse.investment.model.entity.User;
 import io.caniverse.investment.model.enums.InvestmentStatus;
 import io.caniverse.investment.repository.InvestorInvestmentRepository;
 import org.springframework.security.core.Authentication;
@@ -22,6 +22,10 @@ public class InvestorInvestmentService {
         this.investorService = investorService;
     }
 
+    public List<InvestorInvestment> getAllInvestments(){
+        return investorInvestmentRepository.findAll();
+    }
+
     public List<InvestorInvestment> getCurrentUserInvestments(Authentication authentication){
         return investorInvestmentRepository.findAllByInvestor(investorService.getInvestorFromAuthentication(authentication));
     }
@@ -37,13 +41,18 @@ public class InvestorInvestmentService {
         return investorInvestmentRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("Investment not found"));
     }
 
-    public void updateStatus(Long id, InvestmentStatus status){
-        var investorInvestment = investorInvestmentRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("Investment not found"));
-        investorInvestment.setStatus(status);
+    public void updateStatus(ApproveInvestmentDto approveInvestmentDto){
+        var investorInvestment = investorInvestmentRepository.findById(approveInvestmentDto.id()).orElseThrow(()-> new RecordNotFoundException("Investment not found"));
+        investorInvestment.setStatus(approveInvestmentDto.status());
         investorInvestmentRepository.save(investorInvestment);
     }
 
     public InvestmentSummary getInvestorSummary(Authentication authentication){
        return investorInvestmentRepository.getInvestorSummary(investorService.getInvestorFromAuthentication(authentication).getId());
     }
+
+    public InvestmentSummary getSummary(){
+        return investorInvestmentRepository.getSummary();
+    }
+
 }

@@ -30,6 +30,7 @@ public class AuthService {
     public Investor register(RegisterDto registerDto){
         var investor = investorMapper.apply(registerDto);
         investor.getUser().setPassword( passwordEncoder.encode( investor.getUser().getPassword() ) );
+        investor.getUser().setEnabled(true);
         if(registerDto.referrerId() != null) {
             investor.setReferrer(investorRepository.findById(registerDto.referrerId()).orElse(null));
         }
