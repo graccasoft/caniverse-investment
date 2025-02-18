@@ -1,5 +1,4 @@
 @param java.util.List<io.caniverse.investment.model.entity.Investment> investments
-@param io.caniverse.investment.model.entity.InvestorInvestment investorInvestment
 @param org.springframework.security.web.csrf.CsrfToken csrfToken
 @param io.caniverse.investment.model.entity.Investor investor
 <!DOCTYPE html>
@@ -53,13 +52,12 @@
                                          class="relative z-20 bg-transparent dark:bg-form-input">
                                         <select class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                 :class="isOptionSelected &amp;&amp; 'text-black dark:text-white'"
-                                                @change="isOptionSelected = true" name="investment.id" id="investment" required>
+                                                @change="isOptionSelected = true" name="investmentId" id="investment" required>
                                             <option value="" class="text-body">
                                                 Select Investment
                                             </option>
                                             @for(var investment: investments)
-                                                <option value="${investment.getId()}" class="text-body"
-                                                        data-amount="${investment.getAmount()}">${investment.getName()}</option>
+                                                <option value="${investment.getId()}" class="text-body">${investment.getName()}</option>
                                             @endfor
                                         </select>
                                         <span class="absolute right-4 top-1/2 z-30 -translate-y-1/2">
@@ -79,7 +77,7 @@
                                     <label class="mb-3 block text-sm font-medium text-black dark:text-white">
                                         Investment amount
                                     </label>
-                                    <input type="text" id="investmentAmount" placeholder="Investment amount" disabled required
+                                    <input type="text" name="amount"  id="investmentAmount" placeholder="Investment amount"  required
                                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
                                 </div>
                             </div>
@@ -90,7 +88,6 @@
                                         Deposit Tx Id <span class="text-meta-1">*</span>
                                     </label>
                                     <input type="text" id="transactionHash" name="transactionHash"
-                                           value="${investorInvestment.getTransactionHash()}"
                                            placeholder="Deposit Tx Id"
                                            required
                                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">

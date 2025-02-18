@@ -1,5 +1,6 @@
 package io.caniverse.investment.service;
 
+import io.caniverse.investment.exception.RecordNotFoundException;
 import io.caniverse.investment.model.entity.Investment;
 import io.caniverse.investment.repository.InvestmentRepository;
 import org.springframework.stereotype.Service;
@@ -16,5 +17,9 @@ public class InvestmentService {
 
     public List<Investment> getAll(){
         return investmentRepository.findAll();
+    }
+
+    public Investment get(Long id){
+        return investmentRepository.findById(id).orElseThrow( ()-> new RecordNotFoundException("Investment not found"));
     }
 }

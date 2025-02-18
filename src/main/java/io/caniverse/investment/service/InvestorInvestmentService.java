@@ -3,12 +3,15 @@ package io.caniverse.investment.service;
 import io.caniverse.investment.exception.RecordNotFoundException;
 import io.caniverse.investment.model.dto.ApproveInvestmentDto;
 import io.caniverse.investment.model.dto.InvestmentSummary;
+import io.caniverse.investment.model.dto.PlaceInvestmentDto;
 import io.caniverse.investment.model.entity.InvestorInvestment;
 import io.caniverse.investment.model.enums.InvestmentStatus;
+import io.caniverse.investment.model.enums.InvestmentTerm;
 import io.caniverse.investment.repository.InvestorInvestmentRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -16,10 +19,12 @@ public class InvestorInvestmentService {
 
     private final InvestorInvestmentRepository investorInvestmentRepository;
     private final InvestorService investorService;
+    private final InvestmentService investmentService;
 
-    public InvestorInvestmentService(InvestorInvestmentRepository investorInvestmentRepository, InvestorService investorService) {
+    public InvestorInvestmentService(InvestorInvestmentRepository investorInvestmentRepository, InvestorService investorService, InvestmentService investmentService) {
         this.investorInvestmentRepository = investorInvestmentRepository;
         this.investorService = investorService;
+        this.investmentService = investmentService;
     }
 
     public List<InvestorInvestment> getAllInvestments(){
@@ -30,9 +35,27 @@ public class InvestorInvestmentService {
         return investorInvestmentRepository.findAllByInvestor(investorService.getInvestorFromAuthentication(authentication));
     }
 
-    public void save(InvestorInvestment investorInvestment, Authentication authentication){
-        investorInvestment.setInvestor( investorService.getInvestorFromAuthentication(authentication) );
-        investorInvestment.setStatus(InvestmentStatus.PENDING);
+    public void save(PlaceInvestmentDto placeInvestmentDto, Authentication authentication){
+        var investment = investmentService.get(placeInvestmentDto.investmentId());
+
+        if(investment.getMinimumAmount().compareTo(placeInvestmentDto.amount()) > 0){
+            throw new RecordNotFoundException("Amount is less than minimum amount");
+        }
+        var investorInvestment = new InvestorInvestment.Builder()
+                .investment(investment)
+                .transactionHash(placeInvestmentDto.transactionHash())
+                .transactionNetwork(placeInvestmentDto.transactionNetwork())
+                .amount(placeInvestmentDto.amount())
+                .investor(investorService.getInvestorFromAuthentication(authentication))
+                .status(InvestmentStatus.PENDING)
+                .profitAmount(investment.getProfitAmountRate().multiply(placeInvestmentDto.amount()))
+                .build();
+
+        var withdrawalAmount = investorInvestment.getAmount().add(investorInvestment.getProfitAmount());
+        if(investment.getInvestmentTerm().equals(InvestmentTerm.SHORT_TERM)){
+            withdrawalAmount = withdrawalAmount.divide(BigDecimal.valueOf(investment.getPeriod()));
+        }
+        investorInvestment.setWithdrawalAmount(withdrawalAmount);
 
         investorInvestmentRepository.save(investorInvestment);
     }

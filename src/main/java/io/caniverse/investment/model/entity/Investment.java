@@ -1,6 +1,9 @@
 package io.caniverse.investment.model.entity;
 
+import io.caniverse.investment.model.enums.InvestmentTerm;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 import java.math.BigDecimal;
 
@@ -8,11 +11,12 @@ import java.math.BigDecimal;
 public class Investment extends BaseEntity {
     private String name;
     private String description;
-    private BigDecimal amount;
-    private BigDecimal profitAmount;
+    private BigDecimal minimumAmount;
+    private BigDecimal profitAmountRate;
     private Integer period;
-    private Integer numberOfWithdrawals;
-    private BigDecimal withdrawalAmount;
+
+    @Enumerated(EnumType.STRING)
+    private InvestmentTerm investmentTerm;
 
     public String getName() {
         return name;
@@ -30,20 +34,20 @@ public class Investment extends BaseEntity {
         this.description = description;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
+    public BigDecimal getMinimumAmount() {
+        return minimumAmount;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+    public void setMinimumAmount(BigDecimal minimumAmount) {
+        this.minimumAmount = minimumAmount;
     }
 
-    public BigDecimal getProfitAmount() {
-        return profitAmount;
+    public BigDecimal getProfitAmountRate() {
+        return profitAmountRate;
     }
 
-    public void setProfitAmount(BigDecimal profitAmount) {
-        this.profitAmount = profitAmount;
+    public void setProfitAmountRate(BigDecimal profitAmountRate) {
+        this.profitAmountRate = profitAmountRate;
     }
 
     public Integer getPeriod() {
@@ -54,19 +58,11 @@ public class Investment extends BaseEntity {
         this.period = period;
     }
 
-    public Integer getNumberOfWithdrawals() {
-        return numberOfWithdrawals;
+    public InvestmentTerm getInvestmentTerm() {
+        return investmentTerm;
     }
 
-    public void setNumberOfWithdrawals(Integer numberOfWithdrawals) {
-        this.numberOfWithdrawals = numberOfWithdrawals;
-    }
-
-    public BigDecimal getWithdrawalAmount() {
-        return withdrawalAmount;
-    }
-
-    public void setWithdrawalAmount(BigDecimal withdrawalAmount) {
-        this.withdrawalAmount = withdrawalAmount;
+    public void setInvestmentTerm(InvestmentTerm investmentTerm) {
+        this.investmentTerm = investmentTerm;
     }
 }

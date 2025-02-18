@@ -17,7 +17,7 @@ public interface InvestorInvestmentRepository extends JpaRepository<InvestorInve
 
     @Query(
             """
-                    SELECT SUM(i.investment.amount) AS totalInvestment, SUM(i.investment.profitAmount) AS totalProfit
+                    SELECT SUM(i.amount) AS totalInvestment, SUM(i.profitAmount ) AS totalProfit
                     FROM InvestorInvestment i
                     WHERE i.investor.id = :investorId
                     GROUP BY i.investor
@@ -26,7 +26,7 @@ public interface InvestorInvestmentRepository extends JpaRepository<InvestorInve
 
     @Query(
             """
-                    SELECT SUM(i.investment.amount) AS totalInvestment, SUM(i.investment.profitAmount) AS totalProfit
+                    SELECT SUM(i.amount) AS totalInvestment, SUM(i.profitAmount) AS totalProfit
                     FROM InvestorInvestment i
                     """)
     InvestmentSummary getSummary();

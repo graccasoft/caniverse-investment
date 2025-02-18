@@ -38,7 +38,7 @@
                                                 Select Investment
                                             </option>
                                             @for(var investment: investments)
-                                            <option value="${investment.getId()}"  data-amount="${investment.getInvestment().getWithdrawalAmount()}">
+                                            <option value="${investment.getId()}"  data-amount="${investment.getWithdrawalAmount()}">
                                                 ${investment.getInvestment().getName()}
                                             </option>
                                             @endfor

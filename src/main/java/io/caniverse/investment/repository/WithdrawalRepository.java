@@ -1,9 +1,6 @@
 package io.caniverse.investment.repository;
 
-import io.caniverse.investment.model.entity.Investment;
-import io.caniverse.investment.model.entity.Investor;
-import io.caniverse.investment.model.entity.User;
-import io.caniverse.investment.model.entity.Withdrawal;
+import io.caniverse.investment.model.entity.*;
 import io.caniverse.investment.model.enums.TransactionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +18,7 @@ public interface WithdrawalRepository extends JpaRepository<Withdrawal, Long> {
 
     @Query("SELECT SUM(w.amount) FROM Withdrawal w WHERE w.status = :status")
     BigDecimal getTotalByStatus(@Param("status") TransactionStatus status);
+
+    @Query("SELECT SUM(w.amount) FROM Withdrawal w WHERE w.investorInvestment = :investment")
+    BigDecimal getTotalByInvestment(@Param("investment") InvestorInvestment investor);
 }

@@ -187,7 +187,7 @@
 
                                     <div>
                                         <h5 class="font-bold text-black dark:text-white">${investment.getName()}</h5>
-                                        <p class="text-xs font-medium">${investment.getAmount()}</p>
+                                        <p class="text-xs font-medium">From $${investment.getMinimumAmount()}</p>
                                     </div>
                                 </div>
 
@@ -196,11 +196,15 @@
                                        ${investment.getPeriod()} Months
                                     </p>
                                     <p class="text-xs font-medium text-meta-3">
-                                        + ${ investment.getProfitAmount().add( investment.getAmount() ) }
+                                        @if(investment.getInvestmentTerm().equals(io.caniverse.investment.model.enums.InvestmentTerm.LONG_TERM))
+                                            <span>Withdraw your investment and profit after ${investment.getPeriod()} months</span>
+                                        @else
+                                            <span>Withdraw every month for ${investment.getPeriod()}</span>
+                                        @endif
                                     </p>
                                 </div>
                             </div>
-                            <p class="text-center">Invest $${investment.getAmount()} over ${investment.getPeriod()} months and get $${investment.getProfitAmount().add(investment.getAmount())}</p>
+                            <p class="text-center">Invest $100 over ${investment.getPeriod()} months and get $${investment.getProfitAmountRate().multiply(java.math.BigDecimal.valueOf(100)).add(java.math.BigDecimal.valueOf(100))}</p>
                             <div class="flex items-center gap-4">
                                 <a href="/investor/invest" class="text-center bg-meta-3 font-medium hover:text-primary justify-center py-2 rounded text-sm text-white w-full hover:text-white">
                                     Invest Now

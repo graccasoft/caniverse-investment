@@ -76,7 +76,7 @@
                                             </div>
                                         </div>
                                         <div class="col-span-2 flex items-center">
-                                            <p class="text-sm font-medium text-black dark:text-white">${investment.getInvestment().getAmount()}</p>
+                                            <p class="text-sm font-medium text-black dark:text-white">${investment.getAmount()}</p>
                                         </div>
                                         <div class="col-span-1 flex items-center">
                                             <p class="inline-flex rounded-full bg-success bg-opacity-10 px-3 py-1 text-sm font-medium text-success">

@@ -4,16 +4,12 @@ import io.caniverse.investment.exception.RecordNotFoundException;
 import io.caniverse.investment.model.dto.ApproveWithdrawalDto;
 import io.caniverse.investment.model.dto.WithdrawDto;
 import io.caniverse.investment.model.dto.WithdrawalSummary;
-import io.caniverse.investment.model.entity.User;
 import io.caniverse.investment.model.entity.Withdrawal;
 import io.caniverse.investment.model.enums.InvestmentStatus;
 import io.caniverse.investment.model.enums.TransactionStatus;
 import io.caniverse.investment.repository.InvestorInvestmentRepository;
 import io.caniverse.investment.repository.WithdrawalRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -55,13 +51,15 @@ public class WithdrawalService {
         if( !investorInvestment.getStatus().equals(InvestmentStatus.ACTIVE) ){
             throw new ValidationException("Investment has expired");
         }
-        investorInvestmentRepository
-                .findByInvestorAndId(  investor, withdrawDto.investorInvestmentId()  )
-                .orElseThrow(()-> new ValidationException("Investment does not belong to investor"));
+        var investorInvestmentOptional = investorInvestmentRepository
+                .findByInvestorAndId(  investor, withdrawDto.investorInvestmentId()  );
+        if(investorInvestmentOptional.isEmpty()) {
+            throw new ValidationException("Investment does not belong to investor");
+        }
 
-        List<Withdrawal> previousWithdrawals = withdrawalRepository
-                .findAllByInvestorInvestment_Investment(investorInvestment.getInvestment());
-        if(  previousWithdrawals.size() >= investorInvestment.getInvestment().getNumberOfWithdrawals()  ){
+        var totalWithdrawals = withdrawalRepository.getTotalByInvestment(investorInvestment);
+        var totalToBeWithdrawn = investorInvestment.getAmount().add(investorInvestment.getProfitAmount());
+        if(  totalToBeWithdrawn.compareTo(totalWithdrawals) <= 0 ){
             throw new ValidationException("Can not make more withdrawals");
         }
 
@@ -69,7 +67,7 @@ public class WithdrawalService {
         withdrawal.setStatus(TransactionStatus.PENDING);
         withdrawal.setAddress(withdrawDto.address());
         withdrawal.setInvestorInvestment(investorInvestment);
-        withdrawal.setAmount(investorInvestment.getInvestment().getWithdrawalAmount());
+        withdrawal.setAmount(investorInvestment.getWithdrawalAmount());
 
         withdrawalRepository.save(withdrawal);
 

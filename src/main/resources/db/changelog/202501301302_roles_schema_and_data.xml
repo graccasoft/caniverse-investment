@@ -7,6 +7,11 @@
 
     <!-- Create the roles table -->
     <changeSet id="1" author="gracious">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="roles"/>
+            </not>
+        </preConditions>
         <createTable tableName="roles">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -18,10 +23,11 @@
     </changeSet>
 
     <!-- Insert default roles -->
-    <changeSet id="2" author="gracious">
-        <insert tableName="roles">
+    <changeSet id="2" author="gracious" failOnError="false">
+
+        <update tableName="roles">
             <column name="name" value="ADMIN"/>
-        </insert>
+        </update>
         <insert tableName="roles">
             <column name="name" value="INVESTOR"/>
         </insert>

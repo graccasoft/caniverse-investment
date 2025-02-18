@@ -35,7 +35,7 @@
                                     </h4>
                                     <p class="font-medium">
                                         ${investment.getInvestment().getName()}<br>
-                                        $${investment.getInvestment().getAmount()}
+                                        $${investment.getAmount()}
                                     </p>
                                 </div>
                             </div>

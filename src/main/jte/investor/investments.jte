@@ -45,7 +45,7 @@
 
                                 <p class="text-sm font-medium text-black dark:text-white">
                                     ${investment.getInvestment().getName()}<br>
-                                    <smaal>$${investment.getInvestment().getAmount()}</smaal>
+                                    <smaal>$${investment.getAmount()}</smaal>
                                 </p>
                             </div>
                         </div>

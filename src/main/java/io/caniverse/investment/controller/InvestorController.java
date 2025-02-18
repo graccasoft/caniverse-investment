@@ -1,7 +1,7 @@
 package io.caniverse.investment.controller;
 
+import io.caniverse.investment.model.dto.PlaceInvestmentDto;
 import io.caniverse.investment.model.dto.WithdrawDto;
-import io.caniverse.investment.model.entity.InvestorInvestment;
 import io.caniverse.investment.service.InvestmentService;
 import io.caniverse.investment.service.InvestorInvestmentService;
 import io.caniverse.investment.service.InvestorService;
@@ -72,7 +72,6 @@ public class InvestorController {
 
     @GetMapping("invest")
     String invest(Model model, CsrfToken csrfToken, Authentication authentication){
-        model.addAttribute("investorInvestment", new InvestorInvestment());
         model.addAttribute("investments", investmentService.getAll());
         model.addAttribute("investor", investorService.getInvestorFromAuthentication(authentication));
         model.addAttribute("csrfToken", csrfToken);
@@ -80,9 +79,8 @@ public class InvestorController {
     }
 
     @PostMapping("invest")
-    String doInvest(@ModelAttribute InvestorInvestment investorInvestment, Authentication authentication){
-
-        investorInvestmentService.save(investorInvestment, authentication);
+    String doInvest(@ModelAttribute PlaceInvestmentDto placeInvestmentDto, Authentication authentication){
+        investorInvestmentService.save(placeInvestmentDto, authentication);
         return "redirect:/investor/investments";
     }
 
