@@ -2,6 +2,7 @@
 @param io.caniverse.investment.model.dto.InvestmentSummary investmentSummary
 @param io.caniverse.investment.model.dto.WithdrawalSummary withdrawalSummary
 @param io.caniverse.investment.model.entity.Investor investor
+@param String baseUrl
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,8 +18,12 @@
         @template.partials.profile(investor = investor)
         <main>
             <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-
+                <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6 mb-3">
+                    @template.investor.ref-link(investor = investor, baseUrl = baseUrl)
+                </div>
                 <div class="grid grid-cols-1 mb-5 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+
+
                     <!-- Card Item Start -->
                     <div class="rounded-sm border border-stroke bg-white px-7.5 py-6 shadow-default dark:border-strokedark dark:bg-boxdark">
                         <div class="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4">

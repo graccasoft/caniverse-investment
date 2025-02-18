@@ -2,6 +2,7 @@ package io.caniverse.investment.controller;
 
 import io.caniverse.investment.model.dto.RegisterDto;
 import io.caniverse.investment.service.AuthService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +33,9 @@ public class AuthController {
 
 
     @GetMapping("register")
-    String register(CsrfToken csrfToken, Model model){
+    String register(CsrfToken csrfToken, Model model, @RequestParam(value = "ref", required = false) Long ref){
         model.addAttribute("csrfToken",csrfToken);
+        model.addAttribute("referrerId",ref);
         return "register";
     }
 

@@ -7,6 +7,8 @@ import io.caniverse.investment.repository.InvestorRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InvestorService {
     private final InvestorRepository investorRepository;
@@ -23,5 +25,10 @@ public class InvestorService {
     public Investor getInvestorFromAuthentication(Authentication authentication){
         var user = (User)userDetailsService.loadUserByUsername(authentication.getName());
         return getInvestorFromUser(user);
+    }
+
+    public List<Investor> getMyTeam(Authentication authentication){
+        var investor = getInvestorFromAuthentication(authentication);
+        return investorRepository.findByReferrer(investor);
     }
 }

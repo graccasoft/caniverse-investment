@@ -34,11 +34,12 @@ public class InvestorController {
     }
 
     @GetMapping
-    String dashboard(Model model, Authentication authentication){
+    String dashboard(Model model, Authentication authentication,HttpServletRequest request){
         model.addAttribute("investments", investmentService.getAll());
         model.addAttribute("investmentSummary", investorInvestmentService.getInvestorSummary(authentication));
         model.addAttribute("withdrawalSummary", withdrawalService.getInvestorSummary(authentication));
         model.addAttribute("investor", investorService.getInvestorFromAuthentication(authentication));
+        model.addAttribute("baseUrl", WebUtils.getBaseUrl(request));
         return "investor/dashboard";
     }
 
@@ -87,6 +88,7 @@ public class InvestorController {
     @GetMapping("profile")
     String profile(Model model, Authentication authentication, HttpServletRequest request){
         model.addAttribute("investor", investorService.getInvestorFromAuthentication(authentication));
+        model.addAttribute("referrals", investorService.getMyTeam(authentication));
         model.addAttribute("baseUrl", WebUtils.getBaseUrl(request));
         return "investor/profile";
     }

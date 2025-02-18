@@ -1,4 +1,5 @@
 @param org.springframework.security.web.csrf.CsrfToken csrfToken
+@param Long referrerId
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -36,6 +37,7 @@
 
                             <form method="post" action="/register">
                                 <input type="hidden" name="${csrfToken.getParameterName()}" value="${csrfToken.getToken()}">
+                                <input type="hidden" name="referrerId" value="${referrerId}">
                                 <div class="mb-4">
                                     <label class="mb-2.5 block font-medium text-black dark:text-white">Name</label>
                                     <div class="relative">
