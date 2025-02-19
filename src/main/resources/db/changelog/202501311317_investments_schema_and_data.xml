@@ -36,7 +36,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="5" author="gracious">
+    <changeSet id="5" author="gracious" failOnError="false">
         <addColumn tableName="investment">
             <column name="minimum_amount" type="DECIMAL"/>
         </addColumn>
