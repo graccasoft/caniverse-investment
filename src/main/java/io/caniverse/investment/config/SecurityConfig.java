@@ -23,7 +23,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/login","/register").permitAll()
+                        .requestMatchers("/login","/register","/error").permitAll()
 
                         //static assets
                         .requestMatchers("/images/**","/fonts/**","/bundle.js","/style.css","/favicon.ico").permitAll()
