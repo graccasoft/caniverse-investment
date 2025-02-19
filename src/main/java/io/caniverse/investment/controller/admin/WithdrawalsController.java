@@ -1,9 +1,6 @@
 package io.caniverse.investment.controller.admin;
 
 import io.caniverse.investment.model.dto.ApproveWithdrawalDto;
-import io.caniverse.investment.model.dto.WithdrawDto;
-import io.caniverse.investment.service.InvestorInvestmentService;
-import io.caniverse.investment.service.InvestorService;
 import io.caniverse.investment.service.WithdrawalService;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;

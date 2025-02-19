@@ -6,8 +6,6 @@ import io.caniverse.investment.model.entity.User;
 import io.caniverse.investment.repository.InvestorRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
