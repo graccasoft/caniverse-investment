@@ -4,6 +4,7 @@ import io.caniverse.investment.exception.RecordNotFoundException;
 import io.caniverse.investment.model.dto.ApproveWithdrawalDto;
 import io.caniverse.investment.model.dto.WithdrawDto;
 import io.caniverse.investment.model.dto.WithdrawalSummary;
+import io.caniverse.investment.model.entity.Investor;
 import io.caniverse.investment.model.entity.Withdrawal;
 import io.caniverse.investment.model.enums.InvestmentStatus;
 import io.caniverse.investment.model.enums.TransactionStatus;
@@ -42,8 +43,14 @@ public class WithdrawalService {
         return withdrawalRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("Withdrawal not found"));
     }
 
+    public void save(WithdrawDto withdrawDto, Long investorId){
+        doSave(withdrawDto, investorService.getInvestor(investorId));
+    }
     public void save(WithdrawDto withdrawDto, Authentication authentication){
-        var investor = investorService.getInvestorFromAuthentication(authentication);
+        doSave(withdrawDto, investorService.getInvestorFromAuthentication(authentication));
+    }
+
+    public void doSave(WithdrawDto withdrawDto, Investor investor){
 
         var investorInvestment = investorInvestmentRepository.findById(withdrawDto.investorInvestmentId())
                 .orElseThrow(()-> new ValidationException("Invalid investor investment id"));
@@ -57,7 +64,7 @@ public class WithdrawalService {
             throw new ValidationException("Investment does not belong to investor");
         }
 
-        var totalWithdrawals = withdrawalRepository.getTotalByInvestment(investorInvestment);
+        var totalWithdrawals = withdrawalRepository.getTotalByInvestment(investorInvestment).orElse(BigDecimal.ZERO);
         var totalToBeWithdrawn = investorInvestment.getAmount().add(investorInvestment.getProfitAmount());
         if(  totalToBeWithdrawn.compareTo(totalWithdrawals) <= 0 ){
             throw new ValidationException("Can not make more withdrawals");
@@ -85,8 +92,8 @@ public class WithdrawalService {
         var pending = withdrawalRepository.getTotalByInvestorAndStatus(investor, TransactionStatus.PENDING);
         var approved = withdrawalRepository.getTotalByInvestorAndStatus(investor, TransactionStatus.APPROVED);
         return new WithdrawalSummary(
-                pending == null ? BigDecimal.ZERO : pending,
-                approved == null ? BigDecimal.ZERO : approved
+                pending.orElse(BigDecimal.ZERO),
+                approved.orElse(BigDecimal.ZERO)
         );
     }
 
@@ -94,8 +101,8 @@ public class WithdrawalService {
         var pending = withdrawalRepository.getTotalByStatus(TransactionStatus.PENDING);
         var approved = withdrawalRepository.getTotalByStatus(TransactionStatus.APPROVED);
         return new WithdrawalSummary(
-                pending == null ? BigDecimal.ZERO : pending,
-                approved == null ? BigDecimal.ZERO : approved
+                pending.orElse(BigDecimal.ZERO),
+                approved.orElse(BigDecimal.ZERO)
         );
     }
 }

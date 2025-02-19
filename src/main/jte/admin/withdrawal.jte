@@ -70,7 +70,7 @@
                                     </div>
 
                                     <div class="mt-10 flex flex-col justify-end gap-4 sm:flex-row">
-                                        <form method="post" action="/admin/withdrawal-status" onsubmit="return confirm('Are you sure you want to deny?')">
+                                        <form method="post" action="/admin/withdrawals/status" onsubmit="return confirm('Are you sure you want to deny?')">
                                             <input type="hidden" name="${csrfToken.getParameterName()}" value="${csrfToken.getToken()}">
                                             <input type="hidden" name="id" value="${withdrawal.getId()}">
                                             <input type="hidden" name="transactionStatus" value="DENIED">
@@ -79,7 +79,7 @@
                                             Decline Request
                                         </button>
                                         </form>
-                                        <form method="post" action="/admin/withdrawal-status" onsubmit="return approve()">
+                                        <form method="post" action="/admin/withdrawals/status" onsubmit="return approve()">
                                             <input type="hidden" name="${csrfToken.getParameterName()}" value="${csrfToken.getToken()}">
                                             <input type="hidden" name="id" value="${withdrawal.getId()}">
                                             <input type="hidden" name="transactionStatus" value="APPROVED">

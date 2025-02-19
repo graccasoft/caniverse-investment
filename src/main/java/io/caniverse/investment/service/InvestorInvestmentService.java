@@ -4,6 +4,7 @@ import io.caniverse.investment.exception.RecordNotFoundException;
 import io.caniverse.investment.model.dto.ApproveInvestmentDto;
 import io.caniverse.investment.model.dto.InvestmentSummary;
 import io.caniverse.investment.model.dto.PlaceInvestmentDto;
+import io.caniverse.investment.model.entity.Investor;
 import io.caniverse.investment.model.entity.InvestorInvestment;
 import io.caniverse.investment.model.enums.InvestmentStatus;
 import io.caniverse.investment.model.enums.InvestmentTerm;
@@ -34,8 +35,19 @@ public class InvestorInvestmentService {
     public List<InvestorInvestment> getCurrentUserInvestments(Authentication authentication){
         return investorInvestmentRepository.findAllByInvestor(investorService.getInvestorFromAuthentication(authentication));
     }
+    public List<InvestorInvestment> getInvestorInvestments(Long id){
+        return investorInvestmentRepository.findAllByInvestor(investorService.getInvestor(id));
+    }
 
     public void save(PlaceInvestmentDto placeInvestmentDto, Authentication authentication){
+        doSave(placeInvestmentDto, investorService.getInvestorFromAuthentication(authentication));
+    }
+
+    public void save(PlaceInvestmentDto placeInvestmentDto, Long investorId){
+        doSave(placeInvestmentDto, investorService.getInvestor(investorId));
+    }
+
+    public void doSave(PlaceInvestmentDto placeInvestmentDto, Investor investor){
         var investment = investmentService.get(placeInvestmentDto.investmentId());
 
         if(investment.getMinimumAmount().compareTo(placeInvestmentDto.amount()) > 0){
@@ -46,7 +58,7 @@ public class InvestorInvestmentService {
                 .transactionHash(placeInvestmentDto.transactionHash())
                 .transactionNetwork(placeInvestmentDto.transactionNetwork())
                 .amount(placeInvestmentDto.amount())
-                .investor(investorService.getInvestorFromAuthentication(authentication))
+                .investor(investor)
                 .status(InvestmentStatus.PENDING)
                 .profitAmount(investment.getProfitAmountRate().multiply(placeInvestmentDto.amount()))
                 .build();

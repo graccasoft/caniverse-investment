@@ -65,7 +65,7 @@
 
                                     @if(!investment.getStatus().equals(io.caniverse.investment.model.enums.InvestmentStatus.ACTIVE))
                                     <div class="mt-10 flex flex-col justify-end gap-4 sm:flex-row">
-                                        <form method="post" action="/admin/investment-status" onsubmit="return confirm('Are you sure you want to deny request')">
+                                        <form method="post" action="/admin/investments/status" onsubmit="return confirm('Are you sure you want to deny request')">
                                             <input type="hidden" name="${csrfToken.getParameterName()}" value="${csrfToken.getToken()}">
                                             <input type="hidden" name="id" value="${investment.getId()}">
                                             <input type="hidden" name="status" value="DENIED">
@@ -73,7 +73,7 @@
                                                 Decline Request
                                             </button>
                                         </form>
-                                        <form method="post" action="/admin/investment-status" onsubmit="return confirm('Are you sure you want to approve request')">
+                                        <form method="post" action="/admin/investments/status" onsubmit="return confirm('Are you sure you want to approve request')">
                                             <input type="hidden" name="${csrfToken.getParameterName()}" value="${csrfToken.getToken()}">
                                             <input type="hidden" name="id" value="${investment.getId()}">
                                             <input type="hidden" name="status" value="ACTIVE">
