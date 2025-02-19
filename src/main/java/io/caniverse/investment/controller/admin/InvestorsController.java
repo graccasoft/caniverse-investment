@@ -3,10 +3,7 @@ package io.caniverse.investment.controller.admin;
 import io.caniverse.investment.model.dto.PlaceInvestmentDto;
 import io.caniverse.investment.model.dto.WithdrawDto;
 import io.caniverse.investment.model.entity.Investor;
-import io.caniverse.investment.service.InvestmentService;
-import io.caniverse.investment.service.InvestorInvestmentService;
-import io.caniverse.investment.service.InvestorService;
-import io.caniverse.investment.service.WithdrawalService;
+import io.caniverse.investment.service.*;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,8 +65,15 @@ public class InvestorsController {
         return "admin/withdraw";
     }
     @PostMapping("{id}/withdraw")
-    String doWithdrawForInvestor(@ModelAttribute WithdrawDto withdrawDto, @PathVariable Long id){
-        withdrawalService.save(withdrawDto, id);
-        return "redirect:/admin/investors";
+    String doWithdrawForInvestor(@ModelAttribute WithdrawDto withdrawDto, @PathVariable Long id, Model model){
+        try {
+            withdrawalService.save(withdrawDto, id);
+            return "redirect:/admin/investors";
+        }catch(ValidationException ex){
+            model.addAttribute("error", ex.getMessage());
+            model.addAttribute("url", "/admin/investors/"+ id +"/withdraw");
+            return "error";
+        }
+
     }
 }

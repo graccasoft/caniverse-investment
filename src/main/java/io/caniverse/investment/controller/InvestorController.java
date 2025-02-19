@@ -2,10 +2,7 @@ package io.caniverse.investment.controller;
 
 import io.caniverse.investment.model.dto.PlaceInvestmentDto;
 import io.caniverse.investment.model.dto.WithdrawDto;
-import io.caniverse.investment.service.InvestmentService;
-import io.caniverse.investment.service.InvestorInvestmentService;
-import io.caniverse.investment.service.InvestorService;
-import io.caniverse.investment.service.WithdrawalService;
+import io.caniverse.investment.service.*;
 import io.caniverse.investment.utils.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
@@ -59,9 +56,16 @@ public class InvestorController {
         return "investor/withdraw";
     }
     @PostMapping("withdraw")
-    String doWithdraw(@ModelAttribute WithdrawDto withdrawal, Authentication authentication){
-        withdrawalService.save(withdrawal, authentication);
-        return "redirect:/investor/withdrawals";
+    String doWithdraw(@ModelAttribute WithdrawDto withdrawal, Authentication authentication, Model model){
+        try {
+            withdrawalService.save(withdrawal, authentication);
+            return "redirect:/investor/withdrawals";
+        }catch(ValidationException ex){
+            model.addAttribute("error", ex.getMessage());
+            model.addAttribute("url", "/investor/withdraw");
+            return "error";
+        }
+
     }
 
     @GetMapping("investments")
