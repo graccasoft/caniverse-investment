@@ -1,4 +1,4 @@
-package io.caniverse.investment.controller;
+package io.caniverse.investment.controller.investor;
 
 import io.caniverse.investment.model.dto.PlaceInvestmentDto;
 import io.caniverse.investment.model.dto.WithdrawDto;

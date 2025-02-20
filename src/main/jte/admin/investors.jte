@@ -60,6 +60,7 @@
                                                 ${investor.getName()}<br>
                                                 [ <a href="/admin/investors/${investor.getId()}/invest">Invest</a> ]
                                                 [ <a href="/admin/investors/${investor.getId()}/withdraw">Withdraw</a> ]
+                                                [ <a href="/switch-to-investor?u=${investor.getUser().getUsername()}">Login</a> ]
                                             </p>
                                         </div>
                                         <div class="col-span-3 flex items-center">

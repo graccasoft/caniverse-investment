@@ -28,8 +28,8 @@ public class SecurityConfig {
                         //static assets
                         .requestMatchers("/images/**","/fonts/**","/bundle.js","/style.css","/favicon.ico").permitAll()
 
-                        .requestMatchers("/investor/**").hasAuthority("INVESTOR")
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/investor/**","/switch-back-to-admin").hasAuthority("INVESTOR")
+                        .requestMatchers("/admin/**","/switch-to-investor").hasAuthority("ADMIN")
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
