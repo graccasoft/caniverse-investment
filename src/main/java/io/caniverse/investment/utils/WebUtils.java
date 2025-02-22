@@ -5,8 +5,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class WebUtils {
     public static String getBaseUrl(HttpServletRequest request) {
@@ -24,7 +25,7 @@ public class WebUtils {
     }
 
     public static String formatDate(Instant instant){
-        var dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return dateFormat.format(instant);
+        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return instant.atZone(ZoneId.of("Africa/Harare")).format(formatter);
     }
 }

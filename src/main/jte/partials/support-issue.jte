@@ -5,7 +5,7 @@
 <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
     <div class="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
         <div class="col-span-3 flex items-center">
-            <p class="font-medium">${supportIssue.getCreatedOn().toString()}</p>
+            <p class="font-medium">${io.caniverse.investment.utils.WebUtils.formatDate(supportIssue.getCreatedOn())}</p>
         </div>
         <div class="col-span-3 text-right items-center">
             <p class="font-medium">${ supportIssue.getStatus() }</p>
@@ -21,7 +21,7 @@
     <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div class="grid grid-cols-2 gap-4 px-4">
             <div class="col-span-1  items-center">
-                <p class="font-medium">${response.getCreatedOn().toString()}</p>
+                <p class="font-medium">${ io.caniverse.investment.utils.WebUtils.formatDate(response.getCreatedOn()) }</p>
             </div>
             <div class="col-span-1 text-right items-center">
                 <p class="font-medium">${ response.isFromAdmin() ? "Admin" : "Investor" }</p>

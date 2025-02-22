@@ -41,6 +41,9 @@ public class SupportIssueService {
         supportIssueResponse.setSupportIssue(supportIssue);
         supportIssueResponse.setFromAdmin(fromAdmin);
         supportIssue.getResponses().add(supportIssueResponse);
+        if(responseDto.status() != null){
+            supportIssue.setStatus(responseDto.status());
+        }
         supportIssueRepository.save(supportIssue);
         log.info("Support issue responses: {}", supportIssue.getResponses().size());
     }
