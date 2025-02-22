@@ -77,7 +77,7 @@
                                     <label class="mb-3 block text-sm font-medium text-black dark:text-white">
                                         Investment amount
                                     </label>
-                                    <input type="text" name="amount"  id="investmentAmount" placeholder="Investment amount"  required
+                                    <input type="number" min="50" name="amount"  id="investmentAmount" placeholder="Investment amount"  required
                                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
                                 </div>
                             </div>
@@ -131,6 +131,9 @@
         document.getElementById("transactionHash").value == document.getElementById("confirmTransactionHash").value
         ){
             valid = true
+        }
+        if(!valid){
+            alert("Please enter a valid transaction hash");
         }
         return valid;
     }

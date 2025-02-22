@@ -12,6 +12,6 @@ public class InvestorMapper implements Function<RegisterDto, Investor> {
     @Override
     public Investor apply(RegisterDto registerDto) {
         var user = new User(registerDto.email(), registerDto.password());
-        return new Investor(registerDto.name(), user);
+        return new Investor(registerDto.name(), registerDto.phoneNumber(), user);
     }
 }
