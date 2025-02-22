@@ -1,9 +1,6 @@
 package io.caniverse.investment.model.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,18 +8,21 @@ import java.util.List;
 @Entity
 public class Investor extends BaseEntity {
     private String name;
+    private String phoneNumber;
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "referrer_id", nullable = true)
     private Investor referrer;
 
     @OneToMany(mappedBy = "referrer")
     private List<Investor> referredInvestors = new ArrayList<>();
 
     public Investor(){}
-    public Investor(String name, User user){
+    public Investor(String name, String phoneNumber, User user){
         this.name = name;
         this.user = user;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getName() {
@@ -55,5 +55,13 @@ public class Investor extends BaseEntity {
 
     public void setReferredInvestors(List<Investor> referredInvestors) {
         this.referredInvestors = referredInvestors;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
