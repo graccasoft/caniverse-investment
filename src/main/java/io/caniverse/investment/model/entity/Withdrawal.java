@@ -14,6 +14,7 @@ public class Withdrawal extends BaseEntity {
 
     private TransactionStatus status;
     private String address;
+    private String cnvAddress;
     private String transactionHash;
 
     public InvestorInvestment getInvestorInvestment() {
@@ -46,6 +47,14 @@ public class Withdrawal extends BaseEntity {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getCnvAddress() {
+        return cnvAddress;
+    }
+
+    public void setCnvAddress(String cnvAddress) {
+        this.cnvAddress = cnvAddress;
     }
 
     public String getTransactionHash() {
