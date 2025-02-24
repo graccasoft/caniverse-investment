@@ -22,12 +22,14 @@ public class InvestorController {
     private final InvestorInvestmentService investorInvestmentService;
     private final WithdrawalService withdrawalService;
     private final InvestorService investorService;
+    private final ReferralEarningService referralEarningService;
 
-    public InvestorController(InvestmentService investmentService, InvestorInvestmentService investorInvestmentService, WithdrawalService withdrawalService, InvestorService investorService) {
+    public InvestorController(InvestmentService investmentService, InvestorInvestmentService investorInvestmentService, WithdrawalService withdrawalService, InvestorService investorService, ReferralEarningService referralEarningService) {
         this.investmentService = investmentService;
         this.investorInvestmentService = investorInvestmentService;
         this.withdrawalService = withdrawalService;
         this.investorService = investorService;
+        this.referralEarningService = referralEarningService;
     }
 
     @GetMapping
@@ -52,7 +54,6 @@ public class InvestorController {
         model.addAttribute("investments", investorInvestmentService.getCurrentUserInvestments(authentication));
         model.addAttribute("investor", investorService.getInvestorFromAuthentication(authentication));
         model.addAttribute("csrfToken",csrfToken);
-        model.addAttribute("withdrawal", new WithdrawDto());
         return "investor/withdraw";
     }
     @PostMapping("withdraw")
@@ -95,5 +96,29 @@ public class InvestorController {
         model.addAttribute("referrals", investorService.getMyTeam(authentication));
         model.addAttribute("baseUrl", WebUtils.getBaseUrl(request));
         return "investor/profile";
+    }
+
+    @GetMapping("referrals")
+    String referrals(Model model, Authentication authentication, HttpServletRequest request, CsrfToken csrfToken){
+        model.addAttribute("investor", investorService.getInvestorFromAuthentication(authentication));
+        model.addAttribute("earnings", referralEarningService.getInvestorEarnings(authentication));
+        model.addAttribute("investmentSummary", referralEarningService.getSummary(authentication));
+        model.addAttribute("csrfToken",csrfToken);
+        model.addAttribute("baseUrl", WebUtils.getBaseUrl(request));
+        return "investor/referrals";
+    }
+
+
+    @PostMapping("withdraw-referral-earnings")
+    String doReferralWithdraw(@ModelAttribute WithdrawDto withdrawal, Authentication authentication, Model model){
+        try {
+            referralEarningService.makeWithdrawal (withdrawal, authentication);
+            return "redirect:/investor/referrals";
+        }catch(ValidationException ex){
+            model.addAttribute("error", ex.getMessage());
+            model.addAttribute("url", "/investor/referrals");
+            return "error";
+        }
+
     }
 }
