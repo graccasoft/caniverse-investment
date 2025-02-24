@@ -35,8 +35,8 @@ public class WithdrawalService {
         return withdrawalRepository.findAllByInvestorInvestment_Investor(investor);
     }
 
-    public List<Withdrawal> getAll(){
-        return withdrawalRepository.findAll();
+    public List<Withdrawal> getAll(TransactionStatus status){
+        return withdrawalRepository.findAllByStatus(status);
     }
 
     public Withdrawal getWithdrawal(Long id){

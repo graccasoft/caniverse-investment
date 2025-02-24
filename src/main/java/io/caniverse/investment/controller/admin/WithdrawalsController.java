@@ -1,6 +1,7 @@
 package io.caniverse.investment.controller.admin;
 
 import io.caniverse.investment.model.dto.ApproveWithdrawalDto;
+import io.caniverse.investment.model.enums.TransactionStatus;
 import io.caniverse.investment.service.WithdrawalService;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -25,8 +26,10 @@ public class WithdrawalsController {
     }
 
     @GetMapping
-    String withdrawals(Model model){
-        model.addAttribute("withdrawals", withdrawalService.getAll());
+    String withdrawals(Model model, @RequestParam(required = false) TransactionStatus status){
+        var withdrawalStatus = status == null ? TransactionStatus.PENDING : status;
+        model.addAttribute("withdrawals", withdrawalService.getAll(withdrawalStatus));
+        model.addAttribute("status", withdrawalStatus);
         return "admin/withdrawals";
     }
 

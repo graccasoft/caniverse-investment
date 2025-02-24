@@ -1,4 +1,5 @@
 @param java.util.List<io.caniverse.investment.model.entity.Withdrawal> withdrawals
+@param io.caniverse.investment.model.enums.TransactionStatus status
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,13 +23,13 @@
                              class="relative z-20 bg-transparent dark:bg-form-input">
                             <select class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     :class="isOptionSelected &amp;&amp; 'text-black dark:text-white'"
-                                    @change="isOptionSelected = true">
+                                    @change="isOptionSelected = true" id="status">
                                 <option value="" class="text-body">
                                     Select Status
                                 </option>
-                                <option value="" class="text-body">Pending</option>
-                                <option value="" class="text-body">Approved</option>
-                                <option value="" class="text-body">Denied</option>
+                                <option value="PENDING"  class="text-body">Pending</option>
+                                <option value="APPROVED" class="text-body">Approved</option>
+                                <option value="DENIED" class="text-body">Denied</option>
                             </select>
                             <span class="absolute right-4 top-1/2 z-30 -translate-y-1/2">
                                         <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -94,5 +95,17 @@
 </div>
 @template.partials.footer()
 </body>
+<script>
+    function onStatusSelected() {
+     const selectElement = document.getElementById("status");
 
+     const selectedOption = selectElement.value;
+     window.location = '/admin/withdrawals?status=' + selectedOption;
+ }
+
+ window.onload = function () {
+     document.getElementById("status").addEventListener("change", onStatusSelected);
+     document.getElementById('status').value = '${status}';
+ };
+</script>
 </html>
