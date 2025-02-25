@@ -3,7 +3,6 @@ package io.caniverse.investment.controller.admin;
 import io.caniverse.investment.model.dto.ApproveWithdrawalDto;
 import io.caniverse.investment.model.enums.TransactionStatus;
 import io.caniverse.investment.service.ReferralEarningService;
-import io.caniverse.investment.service.WithdrawalService;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
