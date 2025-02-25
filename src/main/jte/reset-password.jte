@@ -1,6 +1,5 @@
 @param org.springframework.security.web.csrf.CsrfToken csrfToken
 @param boolean error
-@param boolean registered
 @param boolean reset
 <html lang="en">
 <head>
@@ -30,32 +29,12 @@
 
                 <div class="bg-white border border-stroke dark:bg-boxdark dark:border-strokedark md:w-1/2 md:w-[50%] mx-auto rounded-sm shadow-default w-full">
                     <div class="flex flex-wrap items-center">
-
                         <div class="w-full p-4 sm:p-12.5 xl:p-17.5">
-                            @if(registered)
-                                <div class="mb-10 rounded-xl border border-success-500 bg-success-50 p-4 dark:border-success-500/30 dark:bg-success-500/15">
-                                    <div class="flex items-start gap-3">
-                                        <div class="-mt-0.5 text-success-500">
-                                            <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24"
-                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                      d="M3.70186 12.0001C3.70186 7.41711 7.41711 3.70186 12.0001 3.70186C16.5831 3.70186 20.2984 7.41711 20.2984 12.0001C20.2984 16.5831 16.5831 20.2984 12.0001 20.2984C7.41711 20.2984 3.70186 16.5831 3.70186 12.0001ZM12.0001 1.90186C6.423 1.90186 1.90186 6.423 1.90186 12.0001C1.90186 17.5772 6.423 22.0984 12.0001 22.0984C17.5772 22.0984 22.0984 17.5772 22.0984 12.0001C22.0984 6.423 17.5772 1.90186 12.0001 1.90186ZM15.6197 10.7395C15.9712 10.388 15.9712 9.81819 15.6197 9.46672C15.2683 9.11525 14.6984 9.11525 14.347 9.46672L11.1894 12.6243L9.6533 11.0883C9.30183 10.7368 8.73198 10.7368 8.38051 11.0883C8.02904 11.4397 8.02904 12.0096 8.38051 12.3611L10.553 14.5335C10.7217 14.7023 10.9507 14.7971 11.1894 14.7971C11.428 14.7971 11.657 14.7023 11.8257 14.5335L15.6197 10.7395Z"
-                                                      fill=""></path>
-                                            </svg>
-                                        </div>
+                            <span class="mb-1.5 block font-medium">Reset Password</span>
+                            <h2 class="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
+                                Caniverse
+                            </h2>
 
-                                        <div>
-                                            <h4 class="mb-1 text-sm font-semibold text-gray-800 dark:text-white/90">
-                                                Success
-                                            </h4>
-
-                                            <p class="text-sm text-gray-500 dark:text-gray-400">
-                                                Registration successful, you can now start your investment journey.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
                             @if(reset)
                                 <div class="mb-10 rounded-xl border border-success-500 bg-success-50 p-4 dark:border-success-500/30 dark:bg-success-500/15">
                                     <div class="flex items-start gap-3">
@@ -74,20 +53,20 @@
                                             </h4>
 
                                             <p class="text-sm text-gray-500 dark:text-gray-400">
-                                                Password successfully reset, you can now login.
+                                                Password has been rest successfully. Please check your email for instructions
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             @endif
 
-                            <form method="post" action="/login">
+                            <form method="post" action="/reset-password">
                                 <input type="hidden" name="${csrfToken.getParameterName()}"
                                        value="${csrfToken.getToken()}">
                                 <div class="mb-4">
-                                    <label class="mb-2.5 block font-medium text-black dark:text-white">Email</label>
+                                    <label class="mb-2.5 block font-medium text-black dark:text-white">Your email address</label>
                                     <div class="relative">
-                                        <input type="email" placeholder="Enter your email" name="username"
+                                        <input type="email" placeholder="Enter your email" name="email" required
                                                class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
 
                                         <span class="absolute right-4 top-4">
@@ -102,26 +81,7 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-6">
-                                    <label class="mb-2.5 block font-medium text-black dark:text-white"> Password</label>
-                                    <div class="relative">
-                                        <input type="password" placeholder="6+ Characters, 1 Capital letter"
-                                               name="password"
-                                               class="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
 
-                                        <span class="absolute right-4 top-4">
-                            <svg class="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                              <g opacity="0.5">
-                                <path d="M16.1547 6.80626V5.91251C16.1547 3.16251 14.0922 0.825009 11.4797 0.618759C10.0359 0.481259 8.59219 0.996884 7.52656 1.95938C6.46094 2.92188 5.84219 4.29688 5.84219 5.70626V6.80626C3.84844 7.18438 2.33594 8.93751 2.33594 11.0688V17.2906C2.33594 19.5594 4.19219 21.3813 6.42656 21.3813H15.5016C17.7703 21.3813 19.6266 19.525 19.6266 17.2563V11C19.6609 8.93751 18.1484 7.21876 16.1547 6.80626ZM8.55781 3.09376C9.31406 2.40626 10.3109 2.06251 11.3422 2.16563C13.1641 2.33751 14.6078 3.98751 14.6078 5.91251V6.70313H7.38906V5.67188C7.38906 4.70938 7.80156 3.78126 8.55781 3.09376ZM18.1141 17.2906C18.1141 18.7 16.9453 19.8688 15.5359 19.8688H6.46094C5.05156 19.8688 3.91719 18.7344 3.91719 17.325V11.0688C3.91719 9.52189 5.15469 8.28438 6.70156 8.28438H15.2953C16.8422 8.28438 18.1141 9.52188 18.1141 11V17.2906Z"
-                                      fill=""></path>
-                                <path d="M10.9977 11.8594C10.5852 11.8594 10.207 12.2031 10.207 12.65V16.2594C10.207 16.6719 10.5508 17.05 10.9977 17.05C11.4102 17.05 11.7883 16.7063 11.7883 16.2594V12.6156C11.7883 12.2031 11.4102 11.8594 10.9977 11.8594Z"
-                                      fill=""></path>
-                              </g>
-                            </svg>
-                          </span>
-                                    </div>
-                                </div>
 
                                 @if(error)
                                     <div class="flex w-full border-l-6 border-[#F87171] bg-[#F87171] bg-opacity-[15%] px-7 py-8 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-9">
@@ -134,7 +94,7 @@
                                         </div>
                                         <div class="w-full">
                                             <h5 class="mb-3 font-bold text-[#B45454]">
-                                                Invalid login details
+                                                Email you provided could not be found
                                             </h5>
                                         </div>
                                     </div>
@@ -142,7 +102,7 @@
 
 
                                 <div class="mb-5">
-                                    <input type="submit" value="Sign In"
+                                    <input type="submit" value="Rest password"
                                            class="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 font-medium text-white transition hover:bg-opacity-90">
                                 </div>
 
@@ -150,11 +110,7 @@
                                 <div class="mt-6 text-center">
                                     <p class="font-medium">
                                         Don’t have any account?
-                                        <a href="/register" class="text-primary">Sign Up</a>
-                                    </p>
-                                    <p class="font-medium">
-                                        Forgot password?
-                                        <a href="/reset-password" class="text-primary">Reset</a>
+                                        <a href="/login" class="text-primary">Login</a>
                                     </p>
                                 </div>
                             </form>

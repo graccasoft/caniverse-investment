@@ -1,9 +1,6 @@
 package io.caniverse.investment.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +12,7 @@ import java.util.Optional;
 @Entity
 public class User extends BaseEntity implements UserDetails {
 
+    @Column(unique = true)
     private String username;
     private String password;
     private boolean isEnabled;
