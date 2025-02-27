@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -68,7 +70,7 @@ public class InvestorInvestmentService {
 
         var withdrawalAmount = investorInvestment.getAmount().add(investorInvestment.getProfitAmount());
         if(investment.getInvestmentTerm().equals(InvestmentTerm.SHORT_TERM)){
-            withdrawalAmount = withdrawalAmount.divide(BigDecimal.valueOf(investment.getPeriod()));
+            withdrawalAmount = withdrawalAmount.divide(BigDecimal.valueOf(investment.getPeriod()), new MathContext(2, RoundingMode.UP));
         }
         investorInvestment.setWithdrawalAmount(withdrawalAmount);
 
