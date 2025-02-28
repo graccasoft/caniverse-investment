@@ -45,7 +45,7 @@
                         <div class="mt-4 flex items-end justify-between">
                             <div>
                                 <h4 class="text-title-md font-bold text-black dark:text-white">
-                                    $${investmentSummary.getTotalInvestment()}
+                                    ${io.caniverse.investment.utils.WebUtils.formatMoney(investmentSummary.getTotalInvestment())}
                                 </h4>
                                 <span class="text-sm font-medium">Total investment</span>
                             </div>
@@ -81,7 +81,7 @@
                         <div class="mt-4 flex items-end justify-between">
                             <div>
                                 <h4 class="text-title-md font-bold text-black dark:text-white">
-                                    $${investmentSummary.getTotalProfit()}
+                                    ${io.caniverse.investment.utils.WebUtils.formatMoney(investmentSummary.getTotalProfit())}
                                 </h4>
                                 <span class="text-sm font-medium">Total Profit</span>
                             </div>
@@ -117,7 +117,7 @@
                         <div class="mt-4 flex items-end justify-between">
                             <div>
                                 <h4 class="text-title-md font-bold text-black dark:text-white">
-                                    $${withdrawalSummary.approvedWithdrawals().add(withdrawalSummary.pendingWithdrawals())}
+                                    ${io.caniverse.investment.utils.WebUtils.formatMoney(withdrawalSummary.approvedWithdrawals().add(withdrawalSummary.pendingWithdrawals()))}
                                 </h4>
                                 <span class="text-sm font-medium">Total Withdrawals</span>
                             </div>
@@ -153,7 +153,7 @@
                         <div class="mt-4 flex items-end justify-between">
                             <div>
                                 <h4 class="text-title-md font-bold text-black dark:text-white">
-                                    $${withdrawalSummary.pendingWithdrawals()}
+                                    ${io.caniverse.investment.utils.WebUtils.formatMoney(withdrawalSummary.pendingWithdrawals())}
                                 </h4>
                                 <span class="text-sm font-medium">Pending Withdrawals</span>
                             </div>

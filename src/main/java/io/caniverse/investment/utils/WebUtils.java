@@ -5,9 +5,12 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class WebUtils {
     public static String getBaseUrl(HttpServletRequest request) {
@@ -27,5 +30,10 @@ public class WebUtils {
     public static String formatDate(Instant instant){
         var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return instant.atZone(ZoneId.of("Africa/Harare")).format(formatter);
+    }
+
+    public static String formatMoney(BigDecimal amount){
+        var locale = Locale.of  ("en", "US");
+        return NumberFormat.getCurrencyInstance(locale).format(amount);
     }
 }

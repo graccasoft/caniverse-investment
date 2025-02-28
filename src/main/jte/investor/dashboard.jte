@@ -51,11 +51,14 @@
                         <div class="mt-4 flex items-end justify-between">
                             <div>
                                 <h4 class="text-title-md font-bold text-black dark:text-white">
-                                    $${investmentSummary == null ? 0 : investmentSummary.getTotalInvestment()}
+                                    @if(investmentSummary.getTotalInvestment() == null)
+                                        0.00
+                                    @else
+                                        ${io.caniverse.investment.utils.WebUtils.formatMoney(investmentSummary.getTotalInvestment())}
+                                    @endif
                                 </h4>
                                 <span class="text-sm font-medium">Total investment</span>
                             </div>
-
                         </div>
                     </div>
                     <!-- Card Item End -->
@@ -87,7 +90,11 @@
                         <div class="mt-4 flex items-end justify-between">
                             <div>
                                 <h4 class="text-title-md font-bold text-black dark:text-white">
-                                    $${investmentSummary == null ? 0 : investmentSummary.getTotalProfit()}
+                                    @if(investmentSummary.getTotalProfit() ==null)
+                                        0.00
+                                    @else
+                                        ${io.caniverse.investment.utils.WebUtils.formatMoney(investmentSummary.getTotalProfit())}
+                                    @endif
                                 </h4>
                                 <span class="text-sm font-medium">Total Profit</span>
                             </div>
@@ -123,7 +130,7 @@
                         <div class="mt-4 flex items-end justify-between">
                             <div>
                                 <h4 class="text-title-md font-bold text-black dark:text-white">
-                                    $${withdrawalSummary.approvedWithdrawals().add(withdrawalSummary.pendingWithdrawals())}
+                                    ${io.caniverse.investment.utils.WebUtils.formatMoney(withdrawalSummary.approvedWithdrawals().add(withdrawalSummary.pendingWithdrawals()))}
                                 </h4>
                                 <span class="text-sm font-medium">Total Withdrawals</span>
                             </div>
@@ -159,7 +166,7 @@
                         <div class="mt-4 flex items-end justify-between">
                             <div>
                                 <h4 class="text-title-md font-bold text-black dark:text-white">
-                                    $${withdrawalSummary.pendingWithdrawals()}
+                                    ${io.caniverse.investment.utils.WebUtils.formatMoney(withdrawalSummary.pendingWithdrawals())}
                                 </h4>
                                 <span class="text-sm font-medium">Pending Withdrawals</span>
                             </div>
@@ -192,7 +199,7 @@
 
                                     <div>
                                         <h5 class="font-bold text-black dark:text-white">${investment.getName()}</h5>
-                                        <p class="text-xs font-medium">From $${investment.getMinimumAmount()}</p>
+                                        <p class="text-xs font-medium">From ${io.caniverse.investment.utils.WebUtils.formatMoney(investment.getMinimumAmount())}</p>
                                     </div>
                                 </div>
 
@@ -209,7 +216,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <p class="text-center">Invest $100 over ${investment.getPeriod()} months and get $${investment.getProfitAmountRate().multiply(java.math.BigDecimal.valueOf(100)).add(java.math.BigDecimal.valueOf(100))}</p>
+                            <p class="text-center">Invest $100 over ${investment.getPeriod()} months and get ${io.caniverse.investment.utils.WebUtils.formatMoney(investment.getProfitAmountRate().multiply(java.math.BigDecimal.valueOf(100)).add(java.math.BigDecimal.valueOf(100)))}</p>
                             <div class="flex items-center gap-4">
                                 <a href="/investor/invest" class="text-center bg-meta-3 font-medium hover:text-primary justify-center py-2 rounded text-sm text-white w-full hover:text-white">
                                     Invest Now
