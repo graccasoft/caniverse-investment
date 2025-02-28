@@ -3833,3 +3833,11 @@ body{
 .text-success-500 {
     color: rgb(18 183 106 / 1);
 }
+.bordered-badge{
+    float: right;
+    font-weight: normal;
+    font-size: 15px;
+    border: solid thin;
+    padding: 0px 10px;
+    border-radius: 20px;
+}

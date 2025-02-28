@@ -1,4 +1,4 @@
-@param java.util.List<io.caniverse.investment.model.entity.Investor> investors
+@param org.springframework.data.domain.Page<io.caniverse.investment.model.entity.Investor> investors
 @param io.caniverse.investment.model.entity.Investor investorQuery
 @param org.springframework.security.web.csrf.CsrfToken csrfToken
 <!DOCTYPE html>
@@ -17,7 +17,11 @@
         <main>
             <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
 
-                <h2 class="text-title-md2 font-bold text-black dark:text-white mb-4">Investors</h2>
+                <h2 class="text-title-md2 font-bold text-black dark:text-white mb-4">
+                    Investors
+                    <span class="bordered-badge">Total: ${investors.getTotalElements()}</span>
+                </h2>
+
                 <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                     <div class="px-4 py-6 md:px-6 xl:px-7.5 text-right">
                         <div x-data="{ isOptionSelected: false }"
@@ -53,7 +57,7 @@
 
                                 </div>
 
-                                @for(var investor: investors)
+                                @for(var investor: investors.getContent())
                                     <div class="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
                                         <div class="col-span-3 flex items-center">
                                             <p class="text-sm font-medium text-black dark:text-white">
@@ -75,6 +79,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="p-2">
+                        Page: <select style="border: solid thin;padding: 0px 5px;" id="page">
+                            @for(var i = 0; i < investors.getTotalPages(); i++)
+                                <option value="${i}">${i + 1}</option>
+                            @endfor
+                        </select>
+                    </div>
+
 
                 </div>
             </div>
@@ -83,5 +95,9 @@
 </div>
 @template.partials.footer()
 </body>
-
+<script>
+    document.getElementById("page").addEventListener("change", function() {
+        window.location.href = "/admin/investors?page=" + this.value;
+    });
+</script>
 </html>

@@ -6,6 +6,8 @@ import io.caniverse.investment.model.entity.User;
 import io.caniverse.investment.repository.InvestorRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +47,12 @@ public class InvestorService {
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         var example = Example.of(investor, matcher);
         return investorRepository.findAll(example);
+    }
+    public Page<Investor> findInvestors(Investor investor, int page, int size) {
+        var matcher = ExampleMatcher.matching()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        var example = Example.of(investor, matcher);
+        return investorRepository.findAll(example, PageRequest.of(page, size));
     }
 }

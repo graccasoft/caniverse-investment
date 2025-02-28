@@ -25,10 +25,13 @@ public class InvestorsController {
     }
 
     @GetMapping
-    String investors(Model model, CsrfToken csrfToken) {
+    String investors(Model model, CsrfToken csrfToken,
+        @RequestParam(required = false) Integer page
+    ) {
         Investor investor = new Investor();
+        int pageNumber = page == null ? 0 : page;
         investor.setName("");
-        model.addAttribute("investors", investorService.findInvestors(investor));
+        model.addAttribute("investors", investorService.findInvestors(investor, pageNumber, 20));
         model.addAttribute("investorQuery", investor);
         model.addAttribute("csrfToken", csrfToken);
         return "admin/investors";
@@ -36,7 +39,7 @@ public class InvestorsController {
 
     @PostMapping
     String searchInvestors(@ModelAttribute Investor investor, Model model, CsrfToken csrfToken) {
-        model.addAttribute("investors", investorService.findInvestors(investor));
+        model.addAttribute("investors", investorService.findInvestors(investor, 0, 20));
         model.addAttribute("investorQuery", investor);
         model.addAttribute("csrfToken", csrfToken);
         return "admin/investors";
