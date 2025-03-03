@@ -53,10 +53,10 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-span-2 flex items-center">
+                                        <div class="col-span-2 flex items-center" style="overflow:hidden">
                                             <p class="text-sm font-medium text-black dark:text-white">
                                                 ${withdrawal.getAddress()}<br>
-                                                ${withdrawal.getCreatedOn().toString()}
+                                                ${ io.caniverse.investment.utils.WebUtils.formatDate(withdrawal.getCreatedOn())}
                                             </p>
                                         </div>
                                         <div class="col-span-1 flex items-center">

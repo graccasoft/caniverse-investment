@@ -73,6 +73,7 @@ public class WithdrawalService {
         var withdrawal = new Withdrawal();
         withdrawal.setStatus(TransactionStatus.PENDING);
         withdrawal.setAddress(withdrawDto.address());
+        withdrawal.setCnvAddress(withdrawDto.cnvAddress());
         withdrawal.setInvestorInvestment(investorInvestment);
         withdrawal.setAmount(investorInvestment.getWithdrawalAmount());
 

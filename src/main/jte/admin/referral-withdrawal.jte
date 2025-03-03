@@ -48,6 +48,10 @@
                                         ${withdrawal.getAddress()}<br>
                                         BEP20
                                     </p>
+                                    <p class="font-medium">
+                                        ${withdrawal.getCnvAddress()}<br>
+                                        CNV
+                                    </p>
                                 </div>
                             </div>
                             <div class="w-full px-4 xl:w-6/12">

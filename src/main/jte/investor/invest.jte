@@ -25,15 +25,14 @@
                                   fill="#FBBF24"></path>
                         </svg>
                     </div>
-                    <div class="w-full">
+                    <div class="w-full" style="word-wrap: break-word">
                         <h5 class="mb-3 text-lg font-bold text-[#9D5425]">
                             Attention needed
                         </h5>
                         <p class="leading-relaxed text-[#D0915C]">
                             Instruction on making an investment.
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. Lorem Ipsum has been the industry's
-                            standard dummy text ever since the 1500s, when
+                            Please make sure you make a USDT (BEP20) deposit to this address.
+                            <strong>0x18514c296bDA3909630a9eeE11668342F50A926D</strong>
                         </p>
                     </div>
                 </div>

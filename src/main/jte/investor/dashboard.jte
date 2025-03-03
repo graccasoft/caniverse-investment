@@ -51,7 +51,7 @@
                         <div class="mt-4 flex items-end justify-between">
                             <div>
                                 <h4 class="text-title-md font-bold text-black dark:text-white">
-                                    @if(investmentSummary.getTotalInvestment() == null)
+                                    @if(investmentSummary == null || investmentSummary.getTotalInvestment() == null)
                                         0.00
                                     @else
                                         ${io.caniverse.investment.utils.WebUtils.formatMoney(investmentSummary.getTotalInvestment())}
@@ -90,7 +90,7 @@
                         <div class="mt-4 flex items-end justify-between">
                             <div>
                                 <h4 class="text-title-md font-bold text-black dark:text-white">
-                                    @if(investmentSummary.getTotalProfit() ==null)
+                                    @if(investmentSummary == null || investmentSummary.getTotalProfit() ==null)
                                         0.00
                                     @else
                                         ${io.caniverse.investment.utils.WebUtils.formatMoney(investmentSummary.getTotalProfit())}
