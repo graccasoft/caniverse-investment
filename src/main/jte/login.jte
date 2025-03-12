@@ -162,6 +162,16 @@
                     </div>
                 </div>
 
+                <div style="display: flex;justify-content: center;align-items: center;" class="mt-4">
+                    <a href="https://chat.whatsapp.com/HmFd6dDX6IQ5yc4pOKMoEd" class="mr-3" target="_blank">
+                        <img src="/images/whatsapp.png" style="width:32px">
+                    </a>
+                    <a href="https://t.me/cnvinvestment"   target="_blank">
+                        <img src="/images/telegram.png" style="width:32px">
+                    </a>
+                </div>
+
+
             </div>
         </main>
     </div>

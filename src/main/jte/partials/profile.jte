@@ -42,6 +42,15 @@
             <a class="block flex-shrink-0 lg:hidden" href="index.html">
                 <img src="/images/logo/logo-icon.png" alt="Logo" width="42px"/>
             </a>
+
+            <div style="display: flex;justify-content: center;align-items: center;">
+                <a href="https://chat.whatsapp.com/HmFd6dDX6IQ5yc4pOKMoEd" class="mr-3" target="_blank">
+                    <img src="/images/whatsapp.png" style="width:32px">
+                </a>
+                <a href="https://t.me/cnvinvestment"   target="_blank">
+                    <img src="/images/telegram.png" style="width:32px">
+                </a>
+            </div>
         </div>
         <div class="hidden sm:block">
 
